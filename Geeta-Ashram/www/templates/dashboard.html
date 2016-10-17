@@ -306,21 +306,21 @@
               <br>
               <img src="img/dew.png" alt="dew" style="width: 35px; height: 35px;margin:0px auto;display:block">
               <br>
-              <h4 ng-show="engAbled"><b>{{shlokas.Quoted_by | highlight }}</b></h4>
-              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine1 | highlight }}</b></h4>
-              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine2 | highlight }}</b></h4>
-              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine3 | highlight }}</b></h4>
-              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine4 | highlight }}</b></h4>
+              <h4 ng-show="engAbled" ng-bind-html="shlokas.Quoted_by | highlight"><b></b></h4>
+              <h4 ng-show="engAbled" ng-bind-html="shlokas.ShlokaEngLine1 | highlight"><b></b></h4>
+              <h4 ng-show="engAbled" ng-bind-html="shlokas.ShlokaEngLine2 | highlight"><b></b></h4>
+              <h4 ng-show="engAbled" ng-bind-html="shlokas.ShlokaEngLine3 | highlight"><b></b></h4>
+              <h4 ng-show="engAbled" ng-bind-html="shlokas.ShlokaEngLine4 | highlight"><b></b></h4>
               <br>
-              <h4 ng-show="engDescAbled">{{shlokas.Description | highlight }}</h4>
+              <h4 ng-show="engDescAbled" ng-bind-html="shlokas.Description | highlight"></h4>
               <br>
-              <h4><b>{{shlokas.Quoted_by_san | highlight }}:</b></h4>
-              <h4><b>{{shlokas.ShlokaSanLine1 | highlight }}</b></h4>
-              <h4><b>{{shlokas.ShlokaSanLine2 | highlight }}</b></h4>
-              <h4><b>{{shlokas.ShlokaSanLine3 | highlight }}</b></h4>
-              <h4><b>{{shlokas.ShlokaSanLine4 | highlight }}</b></h4>
+              <h4 ng-bind-html="shlokas.Quoted_by_san | highlight"><b></b></h4>
+              <h4 ng-bind-html="shlokas.ShlokaSanLine4 | highlight"><b></b></h4>
+              <h4 ng-bind-html="shlokas.ShlokaSanLine4 | highlight"><b></b></h4>
+              <h4 ng-bind-html="shlokas.ShlokaSanLine4 | highlight"><b></b></h4>
+              <h4 ng-bind-html="shlokas.ShlokaSanLine4 | highlight"><b></b></h4>
               <br>
-              <h4 ng-show="hindDescAbled">{{shlokas.DescriptionSan | highlight}}</h4>
+              <h4 ng-show="hindDescAbled" ng-bind-html="shlokas.DescriptionSan | highlight"></h4>
               <br><br>
          </div>
 
@@ -334,21 +334,21 @@
    </ion-modal-view>
 </script>
 
-             <!--  <h4 ng-show="engAbled" ng-bind-html-unsafe="shlokas.Quoted_by | highlightWord : shlokaSearchTerm"><b></b></h4>
-              <h4 ng-show="engAbled" ng-bind-html-unsafe="shlokas.ShlokaEngLine1 | highlightWord : shlokaSearchTerm"><b></b></h4>
-              <h4 ng-show="engAbled" ng-bind-html-unsafe="shlokas.ShlokaEngLine2 | highlightWord : shlokaSearchTerm"><b></b></h4>
-              <h4 ng-show="engAbled" ng-bind-html-unsafe="shlokas.ShlokaEngLine3 | highlightWord : shlokaSearchTerm"><b></b></h4>
-              <h4 ng-show="engAbled" ng-bind-html-unsafe="shlokas.ShlokaEngLine4 | highlightWord : shlokaSearchTerm"><b></b></h4>
+             <!--  <h4 ng-show="engAbled" ng-bind-html="shlokas.Quoted_by | highlight"><b></b></h4>
+              <h4 ng-show="engAbled" ng-bind-html="shlokas.ShlokaEngLine1 | highlight"><b></b></h4>
+              <h4 ng-show="engAbled" ng-bind-html="shlokas.ShlokaEngLine2 | highlight"><b></b></h4>
+              <h4 ng-show="engAbled" ng-bind-html="shlokas.ShlokaEngLine3 | highlight"><b></b></h4>
+              <h4 ng-show="engAbled" ng-bind-html="shlokas.ShlokaEngLine4 | highlight"><b></b></h4>
               <br>
-              <h4 ng-show="engDescAbled" ng-bind-html-unsafe="shlokas.Description | highlightWord : shlokaSearchTerm"></h4>
+              <h4 ng-show="engDescAbled" ng-bind-html="shlokas.Description | highlight"></h4>
               <br>
-              <h4 ng-bind-html-unsafe="shlokas.Quoted_by_san | highlightWord : shlokaSearchTerm"><b></b></h4>
-              <h4 ng-bind-html-unsafe="shlokas.ShlokaSanLine4 | highlightWord : shlokaSearchTerm"><b></b></h4>
-              <h4 ng-bind-html-unsafe="shlokas.ShlokaSanLine4 | highlightWord : shlokaSearchTerm"><b></b></h4>
-              <h4 ng-bind-html-unsafe="shlokas.ShlokaSanLine4 | highlightWord : shlokaSearchTerm"><b></b></h4>
-              <h4 ng-bind-html-unsafe="shlokas.ShlokaSanLine4 | highlightWord : shlokaSearchTerm"><b></b></h4>
+              <h4 ng-bind-html="shlokas.Quoted_by_san | highlight"><b></b></h4>
+              <h4 ng-bind-html="shlokas.ShlokaSanLine4 | highlight"><b></b></h4>
+              <h4 ng-bind-html="shlokas.ShlokaSanLine4 | highlight"><b></b></h4>
+              <h4 ng-bind-html="shlokas.ShlokaSanLine4 | highlight"><b></b></h4>
+              <h4 ng-bind-html="shlokas.ShlokaSanLine4 | highlight"><b></b></h4>
               <br>
-              <h4 ng-show="hindDescAbled" ng-bind-html-unsafe="shlokas.DescriptionSan | highlightWord : shlokaSearchTerm"></h4>
+              <h4 ng-show="hindDescAbled" ng-bind-html="shlokas.DescriptionSan | highlight"></h4>
               <br> -->
 
 
@@ -359,3 +359,19 @@
 
 
   
+
+              <!-- <h4 ng-show="engAbled"><b>{{shlokas.Quoted_by | highlight }}</b></h4>
+              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine1 | highlight }}</b></h4>
+              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine2 | highlight }}</b></h4>
+              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine3 | highlight }}</b></h4>
+              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine4 | highlight }}</b></h4>
+              <br>
+              <h4 ng-show="engDescAbled">{{shlokas.Description | highlight }}</h4>
+              <br>
+              <h4><b>{{shlokas.Quoted_by_san | highlight }}:</b></h4>
+              <h4><b>{{shlokas.ShlokaSanLine1 | highlight }}</b></h4>
+              <h4><b>{{shlokas.ShlokaSanLine2 | highlight }}</b></h4>
+              <h4><b>{{shlokas.ShlokaSanLine3 | highlight }}</b></h4>
+              <h4><b>{{shlokas.ShlokaSanLine4 | highlight }}</b></h4>
+              <br>
+              <h4 ng-show="hindDescAbled">{{shlokas.DescriptionSan | highlight}}</h4> -->
