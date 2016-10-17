@@ -3,7 +3,6 @@ angular.module('starter.controllers', [])
 .controller('AppCtrl', function($scope,$omdbservice,$geeta,$state, $rootScope, $ionicPopup, $ionicSideMenuDelegate, $ionicLoading, $timeout,$ionicModal,$http,$sce,$cordovaMedia){
 
   $scope.mySearch = {}; // create empty object for search params
-  $scope.allShlokas = {};
   $scope.keyWordSearch = '';
   $scope.engLish = true;  
   $scope.hindDesc = true; 
@@ -154,7 +153,6 @@ angular.module('starter.controllers', [])
     $scope.toggleLeft();
     $timeout(function() {
       $scope.toggleLeft();
-      $http.get('js/data/shlokas_tbl.json').success(function(all){$scope.allShlokas = all;});
     }, 1800);
   }, 500);
 
@@ -369,58 +367,62 @@ angular.module('starter.controllers', [])
         template: "Loading Your Match...",
       });
       $scope.chapterSelected = [];
-      $geeta.getChapterRelatedSholkas(ch.id,ch.starting,ch.ending,$scope.allShlokas).then(function(res){
+      
+      $geeta.getChapterRelatedSholkas(ch.id,ch.starting,ch.ending).then(function(res){
+
         $scope.chapterSelected = res;
-      });
-      $scope.chapterSelectedEngName = $scope.chapterEngNames[ch.id-1].name;
-      $scope.chapterSelectedHindName = $scope.chapterHindNames[ch.id-1].name;
+        $scope.chapterSelectedEngName = $scope.chapterEngNames[ch.id-1].name;
+        $scope.chapterSelectedHindName = $scope.chapterHindNames[ch.id-1].name;
+        $scope.engAbled = $scope.engLish;
+        $scope.hindDescAbled = $scope.hindDesc;
+        $scope.engDescAbled = $scope.engDesc;
+        $scope.music = $scope.musics[ch.id-1].url;
+        $scope.music = $sce.trustAsResourceUrl($scope.music);
+        console.log($scope.music);
+        $ionicLoading.hide();
+
+        $ionicModal.fromTemplateUrl('geetaChapters.html',{
+        scope: $scope,
+        animation: 'slide-in-up'
+        }).then(function(modal) {
+            $scope.modal5 = modal;
+            console.log($scope.engAbled);
+            $scope.modal5.show();
+       });
+    });
+  };
+  
+  $scope.searchverseNumber = function(verseNo){
+    $ionicLoading.show({
+        template: "Loading Your Match...",
+    });
+
+    $scope.chapterSelected = [];
+    var searchTerm = parseInt(verseNo);
+    $geeta.getVerse(searchTerm).then(function(res){      
+      $scope.chapterSelected.push(res);
+      console.log('Got Back!');
+      console.log($scope.chapterSelected);
+      if (searchTerm > 0 && searchTerm <= 700){
+        $scope.chapterSelectedEngName = ' Verse Number : '+ searchTerm;  
+      }else{
+        $scope.chapterSelectedEngName = 'No Result Found';
+      }
+      $scope.chapterSelectedHindName = '';
       $scope.engAbled = $scope.engLish;
       $scope.hindDescAbled = $scope.hindDesc;
       $scope.engDescAbled = $scope.engDesc;
-      $scope.music = $scope.musics[ch.id-1].url;
-      $scope.music = $sce.trustAsResourceUrl($scope.music);
-      console.log($scope.music);
+      $ionicLoading.hide();
       $ionicModal.fromTemplateUrl('geetaChapters.html',{
       scope: $scope,
       animation: 'slide-in-up'
       }).then(function(modal) {
           $scope.modal5 = modal;
-          console.log($scope.engAbled);
-          $ionicLoading.hide();
           $scope.modal5.show();
      });
-          
-  };
-  
-  $scope.searchverseNumber = function(searchTerm){
-    $ionicLoading.show({
-        template: "Loading Your Match...",
-    });
-    $scope.chapterSelected = [];
-    var found = 0;
-   
-    for (var i = 0; i < $scope.allShlokas.length ; i++){
-      if($scope.allShlokas[i].ShlokaNumber.search(searchTerm) !== -1){
-          console.log('Matched: '+$scope.allShlokas[i].ShlokaEngLine1);
-          $scope.chapterSelected.push($scope.allShlokas[i]);
-          found = found +1;
-          break;
-      }
-    }
-    $scope.chapterSelectedEngName = found == 0 ? 'No Result Found': '('+found+') Results for: '+ searchTerm;
-    $scope.chapterSelectedHindName = '';
-    $scope.engAbled = $scope.engLish;
-    $scope.hindDescAbled = $scope.hindDesc;
-    $scope.engDescAbled = $scope.engDesc;
 
-    $ionicModal.fromTemplateUrl('geetaChapters.html',{
-    scope: $scope,
-    animation: 'slide-in-up'
-    }).then(function(modal) {
-        $scope.modal5 = modal;
-        $ionicLoading.hide();
-        $scope.modal5.show();
-   });
+          
+    });
   }
   $scope.searchAllShlokas = function(searchTerm){
      $scope.keyWordSearch = searchTerm;
@@ -428,37 +430,24 @@ angular.module('starter.controllers', [])
           template: "Loading Your Match..."
       });
     $scope.chapterSelected = [];
-    var found = 0;
-    var searchTermN = searchTerm.toLowerCase();
 
-      for (var i = 0; i < $scope.allShlokas.length ; i++){
-          var engline1 = $scope.allShlokas[i].ShlokaEngLine1.toLowerCase();
-          var engline2 = $scope.allShlokas[i].ShlokaEngLine2.toLowerCase();
-          var engline3 = $scope.allShlokas[i].ShlokaEngLine3.toLowerCase();
-          var engline4 = $scope.allShlokas[i].ShlokaEngLine4.toLowerCase();
-          var engDescription =  $scope.allShlokas[i].Description.toLowerCase();
-          var quotedBy = $scope.allShlokas[i].Quoted_by.toLowerCase();
-
-        if(engline1.search(searchTermN) !== -1 || engline2.search(searchTermN) !== -1 || engline3.search(searchTermN) !== -1 || engline4.search(searchTermN) !== -1 || $scope.allShlokas[i].ShlokaSanLine1.search(searchTerm) !== -1 ||$scope.allShlokas[i].ShlokaSanLine2.search(searchTerm) !== -1 ||$scope.allShlokas[i].ShlokaSanLine3.search(searchTerm) !== -1 ||$scope.allShlokas[i].ShlokaSanLine4.search(searchTerm) !== -1 || engDescription.search(searchTermN) !== -1 || $scope.allShlokas[i].DescriptionSan.search(searchTerm) !== -1 || quotedBy.search(searchTermN) !== -1 || $scope.allShlokas[i].Quoted_by_san.search(searchTerm) !== -1){
-            // console.log('Matched: '+$scope.allShlokas[i].ShlokaEngLine1);
-            $scope.chapterSelected.push($scope.allShlokas[i]);
-            found = found +1;
-        }
-      }
-      $scope.chapterSelectedEngName = found == 0 ? 'No Result Found': '('+found+') Results for: '+ searchTerm;
+    $geeta.find(searchTerm).then(function(res){
+      $scope.chapterSelected = res;
+      $scope.chapterSelectedEngName = res.length == 0 ? 'No Result Found': '('+res.length+') Results for: '+ searchTerm;
       $scope.chapterSelectedHindName = '';
       $scope.engAbled = $scope.engLish;
       $scope.hindDescAbled = $scope.hindDesc;
       $scope.engDescAbled = $scope.engDesc;
+      $ionicLoading.hide();
 
       $ionicModal.fromTemplateUrl('geetaChapters.html',{
       scope: $scope,
       animation: 'slide-in-up'
       }).then(function(modal) {
           $scope.modal5 = modal;
-          $ionicLoading.hide();
           $scope.modal5.show();
      });
+    })      
   }
 
   $scope.clearInputs = function(){

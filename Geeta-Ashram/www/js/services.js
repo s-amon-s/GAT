@@ -40,16 +40,56 @@ angular.module('starter.services', [])
 
 .factory('$geeta', ['$http','$q','$rootScope', function($http,$q,$rootScope) {
     return {
-      getChapterRelatedSholkas: function(id,starting,ending,allShlokas){
+      getChapterRelatedSholkas: function(id,starting,ending){
           var deferred = $q.defer(); //create promise to handle async data
           var chapterSelected = [];
-          for (var i = starting; i < ending ; i++){
-            if(allShlokas[i].chapter == id){
-              chapterSelected.push(allShlokas[i]);
+          var allShlokas = {};
+          
+          $http.get('js/data/shlokas_tbl.json').success(function(all){
+            allShlokas = all;
+            for (var i = starting; i < ending ; i++){
+              if(allShlokas[i].chapter == id){
+                chapterSelected.push(allShlokas[i]);
+              }
             }
-          }
+          });
+          
+          deferred.resolve(chapterSelected);
+          return deferred.promise; // return promise to requesting controller to wait for asyn response from this service
+        },
+        getVerse: function(verseNo){
+          var deferred = $q.defer(); //create promise to handle async data
+
+          $http.get('js/data/shlokas_tbl.json').success(function(all){
+            deferred.resolve(all[verseNo-1]);
+          });
+         
+          return deferred.promise; // return promise to requesting controller to wait for asyn response from this service
+        },
+        find: function(searchTerm){
+
+          var deferred = $q.defer(); //create promise to handle async data
+          var found = 0;
+          var chapterSelected = [];
+          var searchTermN = searchTerm.toLowerCase();
+
+          $http.get('js/data/shlokas_tbl.json').success(function(all){
+            for (var i = 0; i < all.length ; i++){
+              var engline1 = all[i].ShlokaEngLine1.toLowerCase();
+              var engline2 = all[i].ShlokaEngLine2.toLowerCase();
+              var engline3 = all[i].ShlokaEngLine3.toLowerCase();
+              var engline4 = all[i].ShlokaEngLine4.toLowerCase();
+              var engDescription =  all[i].Description.toLowerCase();
+              var quotedBy = all[i].Quoted_by.toLowerCase();
+              if(engline1.search(searchTermN) !== -1 || engline2.search(searchTermN) !== -1 || engline3.search(searchTermN) !== -1 || engline4.search(searchTermN) !== -1 || all[i].ShlokaSanLine1.search(searchTerm) !== -1 ||all[i].ShlokaSanLine2.search(searchTerm) !== -1 ||all[i].ShlokaSanLine3.search(searchTerm) !== -1 ||all[i].ShlokaSanLine4.search(searchTerm) !== -1 || engDescription.search(searchTermN) !== -1 || all[i].DescriptionSan.search(searchTerm) !== -1 || quotedBy.search(searchTermN) !== -1 || all[i].Quoted_by_san.search(searchTerm) !== -1){
+                chapterSelected.push(all[i]);
+                found = found +1;
+              }
+            }
             deferred.resolve(chapterSelected);
-            return deferred.promise; // return promise to requesting controller to wait for asyn response from this service
+          })
+                   
+          return deferred.promise; // return promise to requesting controller to wait for asyn response from this service
         }
   }
 }])
