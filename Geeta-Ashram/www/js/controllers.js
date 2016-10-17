@@ -1,36 +1,33 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope,$omdbservice,$state, $rootScope, $ionicPopup, $ionicSideMenuDelegate, $ionicLoading, $timeout,$ionicModal,$http,$sce,$cordovaMedia){
+.controller('AppCtrl', function($scope,$omdbservice,$state, $rootScope, $ionicPopup, $ionicSideMenuDelegate, $ionicLoading, $timeout,$ionicModal,$http,$sce){
 
   $scope.mySearch = {}; // create empty object for search params
-  $scope.allShlokas = {};
-  $scope.engLish = true;  
-  $scope.hindDesc = true; 
-  $scope.engDesc = true;
-  $scope.todayPath = {'Chapter':2,'Verse':5};
+  $scope.engLish = false;  
+  $scope.hindDesc = false; 
+  $scope.engDesc = false; 
   $scope.shlokaSearchTerm = '';
   $rootScope.userSettings = {}; // store global user settings
 
-  $scope.chapters = [ {id:1,name:"Chapter 1",starting:0,ending:46},
-                      {id:2,name:"Chapter 2",starting:47,ending:118},
-                      {id:3,name:"Chapter 3",starting:119,ending:161},
-                      {id:4,name:"Chapter 4",starting:162,ending:203},
-                      {id:5,name:"Chapter 5",starting:204,ending:232},
-                      {id:6,name:"Chapter 6",starting:233,ending:279},
-                      {id:7,name:"Chapter 7",starting:280,ending:309},
-                      {id:8,name:"Chapter 8",starting:310,ending:337},
-                      {id:9,name:"Chapter 9",starting:338,ending:371},
-                      {id:10,name:"Chapter 10",starting:372,ending:413},
-                      {id:11,name:"Chapter 11",starting:414,ending:468},
-                      {id:12,name:"Chapter 12",starting:469,ending:488},  
-                      {id:13,name:"Chapter 13",starting:489,ending:522},
-                      {id:14,name:"Chapter 14",starting:523,ending:549},  
-                      {id:15,name:"Chapter 15",starting:550,ending:569},
-                      {id:16,name:"Chapter 16",starting:570,ending:593},  
-                      {id:17,name:"Chapter 17",starting:594,ending:621},
-                      {id:18,name:"Chapter 18",starting:622,ending:699}  
+  $scope.chapters = [ {id:1,name:"Chapter 1"},
+                      {id:2,name:"Chapter 2"},
+                      {id:3,name:"Chapter 3"},
+                      {id:4,name:"Chapter 4"},
+                      {id:5,name:"Chapter 5"},
+                      {id:6,name:"Chapter 6"},
+                      {id:7,name:"Chapter 7"},
+                      {id:8,name:"Chapter 8"},
+                      {id:9,name:"Chapter 9"},
+                      {id:10,name:"Chapter 10"},
+                      {id:11,name:"Chapter 11"},
+                      {id:12,name:"Chapter 12"},  
+                      {id:13,name:"Chapter 13"},
+                      {id:14,name:"Chapter 14"},  
+                      {id:15,name:"Chapter 15"},
+                      {id:16,name:"Chapter 16"},  
+                      {id:17,name:"Chapter 17"},
+                      {id:18,name:"Chapter 18"}  
                   ];
-
   $scope.chapterEngNames = [
                             {id:1,name:"Yoga of despodency of Arjun"},
                             { id:2,name: "The yoga of knowledge"},
@@ -51,7 +48,6 @@ angular.module('starter.controllers', [])
                             { id:17,name: " The yoga of the threefold division of earth"},
                             { id:18,name: "The yoga of liberation by renunciation"}
                           ];
-
   $scope.chapterHindNames = [
                             { id:1,name:"अर्जुनविषादयाेग/ArjunVishadyog"},
                             { id:2,name:"सांख्ययाेग/Samkhyayog"},
@@ -92,9 +88,7 @@ angular.module('starter.controllers', [])
                             { id:17,url: "http://geetaashramthailand.org/Sounds/17.mp3"},
                             { id:18,url:"http://geetaashramthailand.org/Sounds/18.mp3"}
                         ];
-
-  $scope.todayMusic = $scope.musics[($scope.todayPath.Verse)-1].url;
-
+  
   /// Core Search Function
   $scope.doSearch = function(mySearch){
     if(navigator.network.connection.type == Connection.NONE){ // check if search is by imdbID or Title
@@ -152,8 +146,7 @@ angular.module('starter.controllers', [])
   $timeout(function() { 
     $scope.toggleLeft();
     $timeout(function() {
-      $scope.toggleLeft();
-      $http.get('js/data/shlokas_tbl.json').success(function(all){$scope.allShlokas = all;});
+      $scope.toggleLeft();  
     }, 1800);
   }, 500);
 
@@ -173,7 +166,6 @@ angular.module('starter.controllers', [])
   $scope.closeModal5 = function() {
       $scope.modal5.hide();
   };
-
    //Cleanup the modal when we're done with it!
    $scope.$on('$destroy', function() {
       $scope.modal.remove();
@@ -184,23 +176,14 @@ angular.module('starter.controllers', [])
    });
   
    // Execute action on hide modal
-  $scope.$on('modal.hidden', function() {
-    if($ionicSideMenuDelegate.isOpen()){
-      $timeout(function() {
-        $scope.toggleLeft();
-        console.log('closing slide bar');
-      }, 500);
-    }
-  });
-  
-  // Execute action on remove modal
-  $scope.$on('modal.removed', function() {
-     // Execute action
-  });
-
-  $scope.$on('modal.removed', function() {
+   $scope.$on('modal.hidden', function() {
       // Execute action
-  });
+   });
+  
+   // Execute action on remove modal
+   $scope.$on('modal.removed', function() {
+      // Execute action
+   });
 
    $scope.movieDetail = function(mId,year){
     if(navigator.network.connection.type == Connection.NONE){ 
@@ -295,6 +278,8 @@ angular.module('starter.controllers', [])
             $scope.modal3.show();
     });
   };
+  
+
 
   $scope.committee = function(){
     $ionicModal.fromTemplateUrl('committee.html',{
@@ -312,8 +297,7 @@ angular.module('starter.controllers', [])
   $scope.openFb = function(){
 
     $ionicLoading.show({
-          template: "Looking for app...",
-          duration: 1500
+          template: "Looking for app..."
     });  
   
     var scheme;
@@ -338,6 +322,9 @@ angular.module('starter.controllers', [])
         window.open(fbURL, "_blank", 'location=yes');
       }
     );
+    $timeout(function(){
+          $ionicLoading.hide();   
+    }, 1500);
     return false;
   };
   
@@ -350,11 +337,13 @@ angular.module('starter.controllers', [])
 
   $scope.mailIt = function(){
     $ionicLoading.show({
-          template: "Looking for app...",
-          duration: 1500
-    });  
+          template: "Looking for app..."
+      });
     var mail = "info@geetaashramthailand.org?subject=feedback";
     window.open('mailto:'+mail, "_system", 'location=yes');
+    $timeout(function(){
+          $ionicLoading.hide();   
+    }, 1500);
     return false;
   };
   
@@ -366,66 +355,79 @@ angular.module('starter.controllers', [])
 
 
   $scope.searchCh = function(ch){
+      
       $ionicLoading.show({
         template: "Loading Your Match..."
       });
+      $scope.toggleLeft();  
+
+      
+      var url = 'js/data/shlokas_tbl.json';
       $scope.chapterSelected = [];
-      for (var i = ch.starting; i < ch.ending ; i++){
-        if($scope.allShlokas[i].chapter == ch.id){
-            $scope.chapterSelected.push($scope.allShlokas[i]);
-        }
-      }
-      $scope.chapterSelectedEngName = $scope.chapterEngNames[ch.id-1].name;
-      $scope.chapterSelectedHindName = $scope.chapterHindNames[ch.id-1].name;
-      $scope.engAbled = $scope.engLish;
-      $scope.hindDescAbled = $scope.hindDesc;
-      $scope.engDescAbled = $scope.engDesc;
-      $scope.music = $scope.musics[ch.id-1].url;
-      $scope.music = $sce.trustAsResourceUrl($scope.music);
-      console.log($scope.music);
-      $ionicModal.fromTemplateUrl('geetaChapters.html',{
-      scope: $scope,
-      animation: 'slide-in-up'
-      }).then(function(modal) {
-          $scope.modal5 = modal;
-          $scope.clearInputs();
-          console.log($scope.engAbled);
-          $ionicLoading.hide();
-          $scope.modal5.show();
-     });
-          
-  };
+      
+      $http.get(url)
+           .success(function(allShlokas){
+            for (var i = 0; i < allShlokas.length ; i++){
+              if(allShlokas[i].chapter == ch.id){
+                  $scope.chapterSelected.push(allShlokas[i]);
+              }
+            }
+            $scope.chapterSelectedEngName = $scope.chapterEngNames[ch.id-1].name;
+            $scope.chapterSelectedHindName = $scope.chapterHindNames[ch.id-1].name;
+            $scope.engAbled = $scope.engLish;
+            $scope.hindDescAbled = $scope.hindDesc;
+            $scope.engDescAbled = $scope.engDesc;
+            $scope.music = $scope.musics[ch.id-1].url;
+            $scope.music = $sce.trustAsResourceUrl($scope.music);
+            console.log($scope.music);
+            $ionicModal.fromTemplateUrl('geetaChapters.html',{
+            scope: $scope,
+            animation: 'slide-in-up'
+            }).then(function(modal) {
+                $scope.modal5 = modal;
+                $scope.clearInputs();
+                console.log($scope.engAbled);
+                $ionicLoading.hide();
+                $scope.modal5.show();
+           });
+          });
+   };
   
   $scope.searchverseNumber = function(searchTerm){
+    $scope.toggleLeft();
       $ionicLoading .show({
         template: "Loading Your Match..."
     });
     $scope.chapterSelected = [];
+    var url = 'js/data/shlokas_tbl.json';
     var found = 0;
-   
-    for (var i = 0; i < $scope.allShlokas.length ; i++){
-      if($scope.allShlokas[i].ShlokaNumber.search(searchTerm) !== -1){
-          console.log('Matched: '+$scope.allShlokas[i].ShlokaEngLine1);
-          $scope.chapterSelected.push($scope.allShlokas[i]);
-          found = found +1;
-          break;
-      }
-    }
-    $scope.chapterSelectedEngName = found == 0 ? 'No Result Found': '('+found+') Results for: '+ searchTerm;
-    $scope.chapterSelectedHindName = '';
-    $scope.engAbled = $scope.engLish;
-    $scope.hindDescAbled = $scope.hindDesc;
-    $scope.engDescAbled = $scope.engDesc;
 
-    $ionicModal.fromTemplateUrl('geetaChapters.html',{
-    scope: $scope,
-    animation: 'slide-in-up'
-    }).then(function(modal) {
-        $scope.modal5 = modal;
-        $scope.clearInputs();
-        $ionicLoading.hide();
-        $scope.modal5.show();
-   });
+    $http.get(url)
+         .success(function(allShlokas){
+          for (var i = 0; i < allShlokas.length ; i++){
+            if(allShlokas[i].ShlokaNumber.search(searchTerm) !== -1){
+                console.log('Matched: '+allShlokas[i].ShlokaEngLine1);
+                $scope.chapterSelected.push(allShlokas[i]);
+                found = found +1;
+                break;
+            }
+          }
+          $scope.chapterSelectedEngName = found == 0 ? 'No Result Found': '('+found+') Results for: '+ searchTerm;
+          $scope.chapterSelectedHindName = '';
+          $scope.engAbled = $scope.engLish;
+          $scope.hindDescAbled = $scope.hindDesc;
+          $scope.engDescAbled = $scope.engDesc;
+
+          $ionicModal.fromTemplateUrl('geetaChapters.html',{
+          scope: $scope,
+          animation: 'slide-in-up'
+          }).then(function(modal) {
+              $scope.modal5 = modal;
+              $scope.clearInputs();
+              $ionicLoading.hide();
+              $scope.modal5.show();
+         });
+        });
   }
   $scope.searchAllShlokas = function(searchTerm){
       $scope.toggleLeft();
@@ -433,39 +435,80 @@ angular.module('starter.controllers', [])
           template: "Loading Your Match..."
       });
       $scope.chapterSelected = [];
+      var url = 'js/data/shlokas_tbl.json';
       var found = 0;
 
+      $http.get(url)
+           .success(function(allShlokas){
+            var searchTermN = searchTerm.toLowerCase();
+            for (var i = 0; i < allShlokas.length ; i++){
+                var engline1 = allShlokas[i].ShlokaEngLine1.toLowerCase();
+                var engline2 = allShlokas[i].ShlokaEngLine2.toLowerCase();
+                var engline3 = allShlokas[i].ShlokaEngLine3.toLowerCase();
+                var engline4 = allShlokas[i].ShlokaEngLine4.toLowerCase();
+                var engDescription =  allShlokas[i].Description.toLowerCase();
+                var quotedBy = allShlokas[i].Quoted_by.toLowerCase();
 
-      var searchTermN = searchTerm.toLowerCase();
-      for (var i = 0; i < $scope.allShlokas.length ; i++){
-          var engline1 = $scope.allShlokas[i].ShlokaEngLine1.toLowerCase();
-          var engline2 = $scope.allShlokas[i].ShlokaEngLine2.toLowerCase();
-          var engline3 = $scope.allShlokas[i].ShlokaEngLine3.toLowerCase();
-          var engline4 = $scope.allShlokas[i].ShlokaEngLine4.toLowerCase();
-          var engDescription =  $scope.allShlokas[i].Description.toLowerCase();
-          var quotedBy = $scope.allShlokas[i].Quoted_by.toLowerCase();
+              if(engline1.search(searchTermN) !== -1 || engline2.search(searchTermN) !== -1 || engline3.search(searchTermN) !== -1 || engline4.search(searchTermN) !== -1 || allShlokas[i].ShlokaSanLine1.search(searchTerm) !== -1 ||allShlokas[i].ShlokaSanLine2.search(searchTerm) !== -1 ||allShlokas[i].ShlokaSanLine3.search(searchTerm) !== -1 ||allShlokas[i].ShlokaSanLine4.search(searchTerm) !== -1 || engDescription.search(searchTermN) !== -1 || allShlokas[i].DescriptionSan.search(searchTerm) !== -1 || quotedBy.search(searchTermN) !== -1 || allShlokas[i].Quoted_by_san.search(searchTerm) !== -1){
+                  console.log('Matched: '+allShlokas[i].ShlokaEngLine1);
+                if(engline1.search(searchTermN) !== -1){
+                    engline1.replace(searchTermN,"<span class='highlighted'>"+searchTermN+"</span>");
+                  }
+                  if(engline2.search(searchTermN) !== -1){
+                    engline2.replace(searchTermN,"<span class='highlighted'>"+searchTermN+"</span>");
+                  }
+                  if(engline3.search(searchTermN) !== -1){
+                    engline3.replace(searchTermN,"<span class='highlighted'>"+searchTermN+"</span>");
+                  }
+                  if(engline4.search(searchTermN) !== -1){
+                    engline4.replace(searchTermN,"<span class='highlighted'>"+searchTermN+"</span>");
+                  }
+                  if(allShlokas[i].ShlokaSanLine1.search(searchTerm) !== -1){
+                    allShlokas[i].ShlokaSanLine1.replace(searchTerm,"<span class='highlighted'>"+searchTerm+"</span>");
+                  }
+                  if(allShlokas[i].ShlokaSanLine2.search(searchTerm) !== -1){
+                    allShlokas[i].ShlokaSanLine2.replace(searchTerm,"<span class='highlighted'>"+searchTerm+"</span>");
+                  }
+                  if(allShlokas[i].ShlokaSanLine3.search(searchTerm) !== -1){
+                    allShlokas[i].ShlokaSanLine3.replace(searchTerm,"<span class='highlighted'>"+searchTerm+"</span>");
+                  }
+                  if(allShlokas[i].ShlokaSanLine4.search(searchTerm) !== -1){
+                    allShlokas[i].ShlokaSanLine4.replace(searchTerm,"<span class='highlighted'>"+searchTerm+"</span>");
+                  }
+                  if(engDescription.search(searchTermN) !== -1){
+                    engDescription.replace(searchTermN,"<span class='highlighted'>"+searchTermN+"</span>");
+                  }
+                  if(allShlokas[i].DescriptionSan.search(searchTerm) !== -1){
+                    allShlokas[i].DescriptionSan.replace(searchTerm,"<span class='highlighted'>"+searchTerm+"</span>");
+                  }
+                  if(allShlokas[i].Quoted_by_san.search(searchTerm) !== -1){
+                    allShlokas[i].Quoted_by_san.replace(searchTerm,"<span class='highlighted'>"+searchTerm+"</span>");
+                  }
+                  if(quotedBy.search(searchTermN) !== -1){
+                    quotedBy.replace(searchTermN,"<span class='highlighted'>"+searchTermN+"</span>");
+                  }
+                  
+                  $scope.chapterSelected.push(allShlokas[i]);
+                  found = found +1;
+              }
+            }
+            $scope.chapterSelectedEngName = found == 0 ? 'No Result Found': '('+found+') Results for: '+ searchTerm;
+            $scope.chapterSelectedHindName = '';
+            $scope.engAbled = $scope.engLish;
+            $scope.hindDescAbled = $scope.hindDesc;
+            $scope.engDescAbled = $scope.engDesc;
 
-        if(engline1.search(searchTermN) !== -1 || engline2.search(searchTermN) !== -1 || engline3.search(searchTermN) !== -1 || engline4.search(searchTermN) !== -1 || $scope.allShlokas[i].ShlokaSanLine1.search(searchTerm) !== -1 ||$scope.allShlokas[i].ShlokaSanLine2.search(searchTerm) !== -1 ||$scope.allShlokas[i].ShlokaSanLine3.search(searchTerm) !== -1 ||$scope.allShlokas[i].ShlokaSanLine4.search(searchTerm) !== -1 || engDescription.search(searchTermN) !== -1 || $scope.allShlokas[i].DescriptionSan.search(searchTerm) !== -1 || quotedBy.search(searchTermN) !== -1 || $scope.allShlokas[i].Quoted_by_san.search(searchTerm) !== -1){
-            // console.log('Matched: '+$scope.allShlokas[i].ShlokaEngLine1);
-            $scope.chapterSelected.push($scope.allShlokas[i]);
-            found = found +1;
-        }
-      }
-      $scope.chapterSelectedEngName = found == 0 ? 'No Result Found': '('+found+') Results for: '+ searchTerm;
-      $scope.chapterSelectedHindName = '';
-      $scope.engAbled = $scope.engLish;
-      $scope.hindDescAbled = $scope.hindDesc;
-      $scope.engDescAbled = $scope.engDesc;
-
-      $ionicModal.fromTemplateUrl('geetaChapters.html',{
-      scope: $scope,
-      animation: 'slide-in-up'
-      }).then(function(modal) {
-          $scope.modal5 = modal;
-          $scope.clearInputs();
-          $ionicLoading.hide();
-          $scope.modal5.show();
-     });
+            $ionicModal.fromTemplateUrl('geetaChapters.html',{
+            scope: $scope,
+            animation: 'slide-in-up'
+            }).then(function(modal) {
+                $scope.modal5 = modal;
+                $scope.clearInputs();
+                $ionicLoading.hide();
+                $scope.modal5.show();
+                $('#modalBody').text().highlight('dharm');
+           });
+          });
   }
 
   $scope.clearInputs = function(){
@@ -479,21 +522,7 @@ angular.module('starter.controllers', [])
     }  
   };
 
-  $scope.play = function(src) {
-      var media = new Media(src, null, null, mediaStatusCallback);
-      $cordovaMedia.play(media);
-  }
  
-  var mediaStatusCallback = function(status) {
-      if(status == 1) {
-          $ionicLoading.show({template: 'Loading...'});
-      } else {
-          $ionicLoading.hide();
-      }
-  };
-
-
-
 })
 
 
