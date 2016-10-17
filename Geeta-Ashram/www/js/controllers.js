@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope,$omdbservice,$state, $rootScope, $ionicPopup, $ionicSideMenuDelegate, $ionicLoading, $timeout,$ionicModal,$http,$sce,$cordovaMedia){
+.controller('AppCtrl', function($scope,$omdbservice,$geeta,$state, $rootScope, $ionicPopup, $ionicSideMenuDelegate, $ionicLoading, $timeout,$ionicModal,$http,$sce,$cordovaMedia){
 
   $scope.mySearch = {}; // create empty object for search params
   $scope.allShlokas = {};
@@ -365,14 +365,12 @@ angular.module('starter.controllers', [])
 
 
   $scope.searchCh = function(ch){
-      $scope.chapterSelected = [];
-      for (var i = ch.starting; i < ch.ending ; i++){
-        if($scope.allShlokas[i].chapter == ch.id){
-            $scope.chapterSelected.push($scope.allShlokas[i]);
-        }
-      }
       $ionicLoading.show({
-        template: "Loading Your Match..."
+        template: "Loading Your Match...",
+      });
+      $scope.chapterSelected = [];
+      $geeta.getChapterRelatedSholkas(ch.id,ch.starting,ch.ending,$scope.allShlokas).then(function(res){
+        $scope.chapterSelected = res;
       });
       $scope.chapterSelectedEngName = $scope.chapterEngNames[ch.id-1].name;
       $scope.chapterSelectedHindName = $scope.chapterHindNames[ch.id-1].name;
@@ -395,8 +393,8 @@ angular.module('starter.controllers', [])
   };
   
   $scope.searchverseNumber = function(searchTerm){
-      $ionicLoading .show({
-        template: "Loading Your Match..."
+    $ionicLoading.show({
+        template: "Loading Your Match...",
     });
     $scope.chapterSelected = [];
     var found = 0;
@@ -426,8 +424,7 @@ angular.module('starter.controllers', [])
   }
   $scope.searchAllShlokas = function(searchTerm){
      $scope.keyWordSearch = searchTerm;
-      $scope.toggleLeft();
-        $ionicLoading.show({
+      $ionicLoading.show({
           template: "Loading Your Match..."
       });
     $scope.chapterSelected = [];

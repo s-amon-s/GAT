@@ -38,9 +38,19 @@ angular.module('starter.services', [])
     }
 }])
 
-.factory('dashDisplay', ['$http','$q','$rootScope', function($http,$q,$rootScope) {
+.factory('$geeta', ['$http','$q','$rootScope', function($http,$q,$rootScope) {
     return {
-      display : 'home'
+      getChapterRelatedSholkas: function(id,starting,ending,allShlokas){
+          var deferred = $q.defer(); //create promise to handle async data
+          var chapterSelected = [];
+          for (var i = starting; i < ending ; i++){
+            if(allShlokas[i].chapter == id){
+              chapterSelected.push(allShlokas[i]);
+            }
+          }
+            deferred.resolve(chapterSelected);
+            return deferred.promise; // return promise to requesting controller to wait for asyn response from this service
+        }
   }
 }])
 
