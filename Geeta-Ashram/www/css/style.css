@@ -1,0 +1,323 @@
+/* Empty. Add your own CSS if you like */
+/* Empty. Add your own CSS if you like */
+
+<body>{
+    font-family: 'Rosarivo', serif;
+    color: purple;
+    background-color: #FFFFFF 
+}
+
+  header
+      {
+      position:relative;;
+      text-align: center;
+      top:auto;;
+      width:auto;;
+      height:auto;;
+      }
+
+      nav
+      {
+          text-align:center;
+          margin: auto;
+      }
+
+
+
+article
+{
+    padding:0px;
+
+    margin:auto;
+}
+
+#section {
+    width:100%;
+margin: auto;
+    float:left;
+    padding:0px;    }
+
+#section2 {
+  width:100%;
+  text-align:center;
+  padding:0px;  }
+
+
+ul li
+{
+font-family: 'Rosarivo', serif;
+  color: #C90000;
+  font-size: 1.5em;
+  text-align: auto;
+   display: inline-block;
+   text-decoration:none;
+   width: auto;
+   margin: auto;
+}
+
+li a:hover {
+    background-color: #C90000;
+    color: white;
+
+}
+
+h1 {
+font-family: 'Cinzel Decorative', cursive;
+    font-variant: normalfont-family: 'Rosarivo', serif;
+font-size: 3.5em;
+    font-weight: 500;
+    line-height: 26.3px;
+  text-align: center;
+  margin: auto;
+    color: #C90000;}
+
+  h2 {
+  font-family: 'Rosarivo', serif;
+    font-size: 2.5em;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 26.3px;
+    text-align: center;
+    color: #C90000;}
+
+
+  h3 {
+font-family: 'Rosarivo', serif;
+  font-size: 1.5em;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 26.3px;
+    text-align: center;
+    margin: auto;
+    color: #C90000;}
+
+
+  h4 {
+font-family: 'Rosarivo', serif;
+font-size: 20px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 26.3px;
+    margin: auto;
+    text-align: center;
+    color: #C90000;}
+
+    h5 {
+  font-family: 'Rosarivo', serif;
+  font-size: 20px;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: 400;
+        line-height: 26.3px;
+      margin: auto;
+        color: #C90000;}
+
+      h6 {
+    font-family: 'Rosarivo', serif;
+    font-size: 10px;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: 400;
+        line-height: 26.3px;
+        margin: auto;
+        text-align: center;
+        color: #C90000;}
+
+
+  a:link {
+      color: #C90000;
+      background-color: transparent;
+      text-decoration: none;
+  }
+  a:visited {
+      color: #ABABAB;
+      background-color: transparent;
+      text-decoration: none;
+  }
+  a:hover {
+      color: #C90000;
+      background-color: transparent;
+      text-decoration: underline;
+  }
+
+}
+
+
+
+footer
+{
+margin: auto;
+    padding:0px;
+    text-align:center;
+font-family: 'Rosarivo', serif;
+font-size: 10px;
+    color: #C90000;
+}
+
+
+a{
+	text-decoration: none;
+}
+
+i{
+    font-size: 30px;
+}
+
+
+.bold{
+	font-weight:800;
+}
+
+.detail-sub-header {
+    margin-top: -10px;
+    font-size: 12px;
+}
+
+.detail-rating {
+   	float: right;
+    margin: -20px 0 10px 40px;
+    position: relative;
+}
+
+.detail-plot {
+    margin: 20px 0;
+}
+
+
+.votes {
+    font-size: 9px;
+}
+
+.rating {
+    font-weight: 800;
+    text-align: right;
+    font-size: 20px;
+}
+
+.detail-rating i.ion-android-star {
+    position: absolute;
+    font-size: 22px;
+    right: 40px;
+    color: orange;
+}
+
+.details-image img {
+    width: 100%;
+    height: auto;
+}
+
+.details-image {
+    width: 19%;
+    display: inline-block;
+    min-width: 200px;
+}
+
+#details-container {
+    width: 65%;
+    display: inline-block;
+    vertical-align: top;
+    padding: 0% 1%;
+}
+
+#data-charts label {
+    display: inline-block;
+}
+
+div#data-charts {
+    margin-top: 0px;
+    padding-top: 20px;
+}
+
+.rt-divider {
+    width: 100%;
+    margin-top: 20px;
+}
+
+img.rt-logo {
+    max-width: 100px;
+}
+
+img.rotten-img {
+    max-width: 150px;
+    margin: 20px 0 10px 0;
+}
+
+.header-search i{
+    font-size:20px;
+}
+
+.bar.bar-header.header-search {
+    position: relative;
+    top: -4px;
+}
+
+i.ion-email {
+    font-size: 25px;
+    position: relative;
+    top: 4px;
+}
+
+.tabs .tab-item .icon.mission-icon-off{
+  background-repeat: no-repeat;
+  background-position: 50%;
+  height: 100%;
+  background-image: url('../img/mission-logo-off.png');
+  background-size:contain;
+}
+
+.tabs .tab-item .icon.mission-icon-on{
+  background-repeat: no-repeat;
+  background-position: 50%;
+  height: 100%;
+  background-image: url('../img/mission-logo-on.png');
+  background-size:contain;
+}
+.tabs .tab-item .icon.gurudev-icon-off{
+  background-repeat: no-repeat;
+  background-position: 50%;
+  height: 100%;
+  background-image: url('../img/guruji-logo-off.png');
+  background-size:contain;
+}
+
+.tabs .tab-item .icon.gurudev-icon-on{
+  background-repeat: no-repeat;
+  background-position: 50%;
+  height: 100%;
+  background-image: url('../img/guruji-logo-on.png');
+  background-size:contain;
+}
+
+.tabs .tab-item .icon.devotees-off{
+  background-repeat: no-repeat;
+  background-position: 50%;
+  height: 100%;
+  background-image: url('../img/devotees-off.png');
+  background-size:contain;
+}
+
+.tabs .tab-item .icon.devotees-on{
+  background-repeat: no-repeat;
+  background-position: 50%;
+  height: 100%;
+  background-image: url('../img/devotees-on.png');
+  background-size:contain;
+}
+
+.highlighted{ 
+  background: yellow;
+  font-size: 150%;
+  font-weight: bold;
+}
+
+
+@media(max-width:420px){
+    .details-image {
+        width: 100%;
+    }
+    #details-container {
+        width: 100%;
+    }
+}

@@ -1,0 +1,80 @@
+<ion-view view-title="Events">
+  <ion-content >
+  	<br />
+    <article>
+		<H2>Events</H2>
+		<h3><u>Weekly</u></h3>
+		<br>
+		<h4><b>Saturday evening Satsang from 6:00pm to 8pm</b></h4>
+		<h4 style="text-align: center;">Bhajan/Kirtan</h4>
+		<h4>Hanuman Chalisa</h4>
+		<h4>The 12th Chapter</h4>
+		<h4>Shlok of the day - Shri Pujari ji</h4>
+		<h4>Maharaj ji's recorded teachings</h4>
+		<h4>Shri Krishna ji's Aarti</h4>
+		<h4>Preeti Bhoj</h4>
+		<br>
+		<img src="img/dew.png" alt="dew" style="width: 35px; height: 35px;margin:0px auto;display:block">
+		<br>
+		<h4><b>Tuesday morning Ladies Satsang from 11am to 12:30pm</b></h4>
+		<h4>Bhajan/Kirtan</h4>
+		<h4>Recitation of the 12th Chapter of the Shrimad Bhagwad Geeta</h4>
+		<h4>Sermon by the revered Ashram head priest</h4>
+		<h4>Shri Krishna ji's Aarti</h4>
+		<h4>Preeti Bhoj</h4>
+		<br>
+		<img src="img/dew.png" alt="dew" style="width: 35px; height: 35px;margin:0px auto;display:block">
+		<br>
+		<h3><u>Monthly</u></h3>
+		<br>
+		<h4><b>Evening of the monthly Purnima day 6:30pm to 8:30pm</b></h4><br />
+		<h4>Recitation of all 18 chapters of the Shrimad Bhagwad Geeta</h4>
+		<h4>Shri Krishna ji's Aarti</h4>
+		<h4>Preeti Bhoj</h4><br>
+	</article>
+	
+	<br>
+	<hr class="style18" width="80%">
+	<br>
+	
+	<ion-list show-delete="shouldShowDelete" show-reorder="shouldShowReorder"
+      can-swipe="listCanSwipe" ng-controller="eventFeedsCtrl">
+      <h3><u>Other Events (Feed)</u> &nbsp;
+		  <a ng-click="checkFeed()" href="#">
+		  	<ion-spinner icon="lines"></ion-spinner>
+		  </a>
+      </h3>
+	<a ng-click="checkFeed()" href="#"><p style="color:black">&nbsp;<b>*click on spinner to refresh</b></p></a>
+    	<ion-item ng-repeat="event in events" class="item-thumbnail-left">
+    		<img ng-src="{{event.img}}" width="25" height="25">
+    		<h2>{{event.title}}</h2>
+		    <p>{{event.description}}</p>
+		    <ion-option-button class="button-positive" ng-click="share(event)">
+		     	Share
+		    </ion-option-button>
+		    <ion-delete-button class="ion-minus-circled" ng-click="events.splice($index, 1)">
+		    </ion-delete-button>
+		    <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(event, $fromIndex, $toIndex)">
+		    </ion-reorder-button>
+	    </ion-item>
+	</ion-list>
+	
+	<br>
+	<hr class="style18" width="80%">
+	<br>
+
+		<h4 >
+			(Monthly date and other feeds will be update on this page if you are connected to internet "Or" you can also check the announcements on our facebook page.
+			<a href="#" ng-click="openFb()"> Join us  <img style="border: 0px solid ;font-family: Garamond; color: rgb(255, 231, 255);" alt="facebook" src="img/f_logo.png"  width="25" height="25"></a>)
+		</h4>
+		<br>
+		<img src="img/rose_960_720.jpg" alt="rose" style="width: 40%; height: 20%;margin:0px auto;display:block">
+
+		<hr class="style18" width="80%">
+
+	<footer>
+		<h6>Copyright (C) 2016 www.geetaashramthailand.org. All rights reserved.</h6>
+	</footer>
+
+  </ion-content>
+</ion-view>

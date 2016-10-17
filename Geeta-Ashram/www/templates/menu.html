@@ -1,0 +1,148 @@
+<ion-side-menus enable-menu-with-back-views="false">
+  <ion-side-menu-content>
+    <ion-nav-bar class="bar-stable">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+
+      <ion-nav-buttons side="left">
+        <button class="menu-bttn button button-icon button-clear ion-navicon" menu-toggle="left">
+        </button>
+      </ion-nav-buttons>
+    </ion-nav-bar>
+
+    <ion-nav-view name="menuContent"></ion-nav-view>
+    <!-- TABS -->
+    <ion-tabs class="tabs-icon-top tabs-color-active-positive">
+
+      <ion-tab title="Dashboard" icon-off="ion-clipboard" icon-on="ion-clipboard" href="#/app/dashboard">
+        <ion-nav-view name="tab-dashboard"></ion-nav-view>
+      </ion-tab>
+
+      <ion-tab title="Mission" icon-off="mission-icon-off" icon-on="mission-icon-on" href="#/app/mission">
+        <ion-nav-view name="tab-mission"></ion-nav-view>
+      </ion-tab>
+      
+      <ion-tab title="Gurudev" icon-off="gurudev-icon-off" icon-on="gurudev-icon-on" href="#/app/gurudev">
+        <ion-nav-view name="tab-gurudev"></ion-nav-view>
+      </ion-tab>
+
+      <ion-tab title="Devotees" icon-off="devotees-off" icon-on="devotees-on" href="#/app/devotees">
+        <ion-nav-view name="tab-devotees"></ion-nav-view>
+      </ion-tab>
+
+      <ion-tab title="Events" icon-off="ion-ios-glasses" icon-on="ion-ios-glasses" href="#/app/events">
+        <ion-nav-view name="tab-events"></ion-nav-view>
+      </ion-tab>
+
+    </ion-tabs>
+
+  </ion-side-menu-content>
+
+   <!-- Side Menu (left) -->
+     <ion-side-menu side="left">
+        <ion-header-bar class="bar-stable">
+            <h1 class="title"><u><b>Browse More<b><u></h1>
+        </ion-header-bar>
+        <ion-content class="padding">
+            <div class="list">
+                
+                <div class="item item-divider">
+                    <i class="icon ion-ipod"></i>
+                    Search Geeta Chapters/अध्याय
+                </div>
+                <label class="item item-input item-select">
+                    <div class="input-label">
+                        Chapters/अध्याय
+                    </div>  
+                    <select id="cS" ng-model="chapterSelected" style="text-align:center;" ng-change="searchCh(chapterSelected)" data-ng-options="chapter as chapter.name for chapter in chapters">
+                      <!-- <option value="">Select Chapter</option> -->
+                    </select>
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Verse/Number</span>
+                    <input class="titleSearch" type="text" placeholder="type shloka number here" ng-model="verseNumber" ng-keyup="$event.keyCode == 13 && searchverseNumber(verseNumber)">
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Sholka/Description</span>
+                    <input class="titleSearch" type="text" placeholder="type any word you remember here" ng-model="shlokaSearchTerm" ng-keyup="$event.keyCode == 13 && searchAllShlokas(shlokaSearchTerm)">
+                </label>
+                <li class="item item-toggle" style="font-weight: normal;">
+                    English Verse
+                  <label class="toggle toggle-balanced">
+                   <input type="checkbox" ng-model="engLish" ng-change="toggleEnglish()">
+                   <div class="track">
+                     <div class="handle"></div>
+                   </div>
+                  </label>
+                </li> 
+                <li class="item item-toggle" style="font-weight: normal;">
+                    English Desciption
+                  <label class="toggle toggle-balanced">
+                   <input type="checkbox" ng-model="engDesc" ng-change="toggleengDesc()">
+                   <div class="track">
+                     <div class="handle"></div>
+                   </div>
+                  </label>
+                </li>
+                <li class="item item-toggle" style="font-weight: normal;">
+                    Hindi Desciption
+                  <label class="toggle toggle-balanced">
+                   <input type="checkbox" ng-model="hindDesc" ng-change="togglehindDesc()">
+                   <div class="track">
+                     <div class="handle"></div>
+                   </div>
+                  </label>
+                </li> 
+                <div class="item item-divider">
+                  <i class="icon ion-android-contacts"></i>
+                   Reach Us
+                </div>
+              
+                    <a href="#" ng-click="contactUs()" class="item item-input item-select" style="color:#5F9EA0">Contact & Location &nbsp;<i class="icon ion-navigate"></i></a>
+                
+               
+                    <a href="#" ng-click="committee()" class="item item-input item-select" style="color:#5F9EA0">Committees &nbsp;<i class="icon ion-ios-people"></i></a>
+             
+                
+                <div class="item item-divider">
+                    <i class="icon ion-videocamera"></i>
+                    Search Movies by Title or IMDB ID
+                </div>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Title</span>
+                    <input class="titleSearch" type="text" placeholder="The God Father" ng-disabled="mySearch.id" ng-model="mySearch.title" ng-keyup="$event.keyCode == 13 && doSearch(mySearch)">
+                </label>
+                <label class="item item-input item-select">
+                    <div class="input-label">
+                        Response Type
+                    </div>
+                    <select ng-model="userSettings.feedType">
+                        <option  value="json">JSON</option>
+                        <option value="xml">XML</option>
+                    </select>
+                </label>
+                <label class="item item-input item-select">
+                    <div class="input-label">
+                        Media Type
+                    </div>
+                    <select ng-model="userSettings.mediaType">
+                        <option value="movie">Movie</option>
+                        <option value="series">Series</option>
+                        <option value="episode">Episode</option>
+                    </select>
+                </label>
+                <li class="item item-toggle">
+                 Rotten Tomatoes Info
+                 <label class="toggle toggle-balanced">
+                   <input type="checkbox" ng-model="userSettings.tomatoes">
+                   <div class="track">
+                     <div class="handle"></div>
+                   </div>
+                 </label>
+              </li>
+            </div>
+            <a class="button button-block button-positive icon-right ion-search" ng-click="doSearch(mySearch)" href="#">Search</a>
+            <a class="button button-block button-assertive" ng-click="clearForm()" href="#">Reset</a>
+        </ion-content>
+    </ion-side-menu>
+</ion-side-menus>

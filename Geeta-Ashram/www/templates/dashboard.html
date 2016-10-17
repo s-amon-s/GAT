@@ -1,0 +1,344 @@
+<ion-view view-title="Dashboard">
+  <ion-content class="padding" >
+    <img src="img/logo.PNG" alt="guruji" style="width:100%;height:100%;margin:0px auto;display:block">
+    <br><br>
+    <img src="img/Krishnapic_small2.png" align="center" style="width:50%;height:50%;margin:0px auto;display:block">
+    <br><br>
+    <article>
+      <h2>Shrimad Bhagwad Geeta</b></h2>
+      <br>
+      <h3>Today's <b>&quot;One Shlok a day&quot;</b></h3>
+      <br><br>
+      <h3><b></b></h3>
+      <br>
+      
+      <div align=center id=pronounciation>
+        <h6>Voice of Swami Hari Har Ji Maharaj</h6>
+              <!-- <button class="button" ng-click="play({{todayMusic}})">Play from file system</button> -->
+              {{todayMusic}}
+        <h6>This may take a few seconds</h6>
+      </div>
+      <br>
+      <div id=section>
+        
+      </div>
+    </article>
+    <br>
+<img src="img/rose_960_720.jpg" alt="rose" style="width: 40%; height: 20%;margin:0px auto;display:block">
+
+<h6>English text courtesy Mr. Peter Ganglani of <a href="http://www3.sympatico.ca/goodnewsrealstate/geetaashram/indexgeeta.html">Geeta Ashram Canada</a> </h6>
+<h6>Sanskrit and Hindi text courtesy <a href="http://www.gitasupersite.iitk.ac.in/">Gita Supersite</a>  </h6>
+  <hr class="style18" width="80%">
+
+  <footer>
+
+  <h6>Copyright (C) 2016 www.geetaashramthailand.org. All rights reserved.</h6>
+</footer>
+  </ion-content>
+</ion-view>
+
+<script id = "movieQueryResultList.html" type = "text/ng-template">
+   <ion-modal-view>
+      <ion-header-bar>
+         <h1 class = "title">Movie List related to {{mySearch.title}} </h1>
+      </ion-header-bar>
+    
+      <ion-content class="padding">  
+         <button class = "button icon icon-left ion-ios-close-outline"
+            ng-click = "closeModal()">Close Modal</button>
+                  <img src="img/imdb-logo.jpeg" alt="imdb" style="width:100%;height:100%;margin:0px auto;display:block">
+      <br>
+        <ion-list>
+        <ion-item ng-repeat="item in OMDB_RESULTS">
+            <a ng-click="movieDetail(item.imdbID,item.Year)" href="#">
+                <img ng-src="{{item.Poster}}" style="width:100%;height:50%;margin-right:12px;">
+                &nbsp; &nbsp;<h2>{{item.Title}}</h2>
+                <p>{{item.Year}}</p>
+            </a>
+
+      </ion-item>
+        </ion-list>
+
+      </ion-content>
+   </ion-modal-view>
+</script>
+
+
+<script id = "movieDetail.html" type = "text/ng-template">
+   <ion-modal-view>
+      <ion-header-bar>
+         <h1 class = "title">Detail about {{data.Title}} </h1>
+      </ion-header-bar> 
+    
+      <ion-content class="padding">  
+         <button class = "button icon icon-left ion-ios-close-outline"
+            ng-click = "closeModal2()">Close Modal</button>
+                  <img src="img/imdb-logo.jpeg" alt="imdb" style="width:100%;height:100%;margin:0px auto;display:block">
+
+    <br>
+      <div class="details-image"><a href="http://www.imdb.com/title/{{data.imdbID}}"><img ng-src="{{data.Poster}}"></a></div>
+    <div id="details-container" ng-if="data">
+      <h3 class="main-title"><a href="http://www.imdb.com/title/{{data.imdbID}}">{{data.Title}} ({{data.Year}})</a></h3>
+      
+      <div class="detail-rating">
+        <i class="ion-android-star"></i><div class="rating">{{data.imdbRating}}</div>
+        <div class="votes">{{data.imdbVotes}} votes</div>
+      </div>
+      <div class="detail-sub-header">{{data.Rated}} | {{data.Runtime}} | {{data.Genre}} | {{data.Released}} | ({{data.Country}})  ( {{data.imdbID}} )</div>
+
+      <div class="detail-plot">{{data.Plot}}</div>
+
+      <div class="detail-sub-plot">
+        <div ng-show="data.Director"><span class="bold">Director:</span> {{data.Director}}</div>
+        <div ng-show="data.Writers"><span class="bold">Writers:</span> {{data.Writers}}</div>
+        <div ng-show="data.Actors"><span class="bold">Actors:</span> {{data.Actors}}</div>
+        <div ng-show="data.Awards"><span class="bold">Awards:</span> {{data.Awards}}</div>
+      </div>
+
+      <div id="data-charts">
+        <highchart style="width: 300px; height: 125px;" id="chart1" config="imdbStatConfig"></highchart>
+      </div>
+
+      <div id="rotten-tomatoes" ng-if="userSettings.tomatoes">
+      <img class="rotten-img" src="http://d2a5cgar23scu2.cloudfront.net/static/images/logos/rtlogo.png"/>
+        <ul class="tomato-list">
+          <li>Tomato Meter: {{data.tomatoMeter}}</li>
+          <li>Tomato Ranking: {{data.tomatoRating}}</li>
+          <li>Reviews: {{data.tomatoReviews}}</li>
+          <li>User Meter: {{data.tomatoUserMeter}}</li>
+          <li>User Rating: {{data.tomatoUserRating}}</li>
+          <li>User Reviews: {{data.tomatoUserReviews}}</li>
+        </ul>
+      </div>
+    </div>
+   </ion-content>
+   </ion-modal-view>
+</script>
+
+
+<script id = "contactUs.html" type = "text/ng-template">
+   <ion-modal-view>
+      <ion-header-bar>
+         <h1 class = "title">Contact Us (GAT, Geeta Ashram Thailand)</h1>
+      </ion-header-bar>
+    
+      <ion-content class="padding" ng-controller="AppCtrl">  
+         <button class = "button icon icon-left ion-ios-close-outline"
+            ng-click = "closeModal3()">Close Modal</button>
+            <img src="img/logo.PNG" alt="geeta ashram" style="width:100%;height:100%;margin:0px auto;display:block"><br>
+            <img src="img/splash.png" alt="geeta Ashram" style="width:75%;height:85%;margin:0px auto;display:block">
+<br>
+<h3>444/4 Sukhumvit Soi 50</h3>
+<h3>Phra Khanong, Khlong Toey</h3>
+<h3>Bangkok 10250</h3>
+<h3>Thailand</h3>
+<br>
+<h3><a ng-click="mailIt()" href="#" style="color:orange;"><u>Email us:info@geetaashramthailand.org</u></a></h3>
+<br>
+<hr class="style18" width="80%">
+<br>
+
+<h3><a ng-click="openMap()" href="#" style="color:orange;">
+<img src="img/map.PNG" alt="geeta Ashram" style="width:100%;height:100%;display:block">
+<br>
+<u>Google Maps/Directions</u>
+</a></h3>
+<br>
+<hr class="style18" width="80%">
+<br>
+<h3><a ng-click="openFb()" href="#" style="color:orange">
+<img style="margin:0 auto;border: 0px solid ;font-family: Garamond; color: rgb(255, 231, 255);" alt="facebook"src="img/f_logo.png" align="center"><br>
+ <u>Join us on Facebook, Geeta Ashram Thailand </u>&nbsp; 
+ </a></h3>
+<br>
+<hr class="style18" width="80%">
+<br>
+<h3><a ng-click="callUs()" href="#" style="color:orange">
+<img style="margin:0 auto;border: 0px solid ;font-family: Garamond; color: rgb(255, 231, 255);" alt="facebook"src="img/amon.jpg" align="center"><br>
+ <u>Call us @ +669-2282-8604<br>Contact Person ~ Amon Mishra</u>&nbsp; 
+ </a></h3>
+<br>
+<hr class="style18" width="80%">
+<br>
+<footer>
+<h6>Copyright (C) 2016 www.geetaashramthailand.org. All rights reserved.</h6>
+</footer>
+      </ion-content>
+   </ion-modal-view>
+</script>
+
+<script id = "committee.html" type = "text/ng-template">
+   <ion-modal-view>
+      <ion-header-bar>
+         <h1 class = "title">Contact Us (GAT, Geeta Ashram Thailand)</h1>
+      </ion-header-bar>
+    
+      <ion-content class="padding" ng-controller="AppCtrl">  
+         <button class = "button icon icon-left ion-ios-close-outline"
+            ng-click = "closeModal4()">Close Modal</button>
+            <img src="img/logo.PNG" alt="geeta ashram" style="width:100%;height:100%;margin:0px auto;display:block"><br>
+
+
+<H2>Management Committee</H2>
+<H2>(2015 – 2016)</H2>
+<br>
+<h3><b>H.H. Shri 1008 Swami Hari Har ji Maharaj</b></h3>
+<h4>Founder President</h4>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Dr. Preedee Kasemsup</h3>
+<h4>President</h4>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Mr. H. S. Tanwani</h3>
+<h4>Acting President</h4>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Mr. Kavee Uer-anant</h3>
+<h4>Vice President</h4>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Mr. Subash Ghogar</h3>
+<h4>Executive Vice President</h4>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Mr. Anucha Tiwari</h3>
+<h4>General Secretary</h4>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Mrs. Rajrani Agarwal</h3>
+<h4>Joint Secretary</h4>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Mr. Dinesh Pandey</h3>
+<h4>Joint Secretary</h4>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Mr. Sudeep Sehgal</h3>
+<h4>Treasurer</h4>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Mrs. Swadesh Gulhati</h3>
+<h4>Member</h4>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Mr. Ambarish Tiwari</h3>
+<h4>Member</h4>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Mr. T. D. Mishra</h3>
+<h4>Member</h4>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Mrs. Narinder Sakhuja</h3>
+<h4>Member</h4>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Mrs. Krishna Nirula</h3>
+<h4>Member</h4>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Mr. Jai Kumar Mirpuri</h3>
+<h4>Member</h4>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Mr. N. K. Dalan</h3>
+<h4>Member</h4>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Mr. Raj Narayan Upadhyay</h3>
+<h4>Member</h4>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Mr Charoen Bajaj</h3>
+<h4>Member</h4>
+<br>
+<H2>Event Organizing Committee</H2>
+<H2>(2015 – 2016)</H2>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Mrs. Swadesh Gulhati</h3>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Mrs. Asha Ghogar</h3>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Mrs. Narinder Sakhuja</h3>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Mr. Anucha Tiwari</h3>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Mr. Sudeep Sehgal</h3>
+<br>
+<img src="img/dew.png" alt="Dew" style="width:35px;height:35px;margin:0px auto;display:block">
+<h3>Mr. Dinesh Pandey</h3>
+<br>
+<img src="img/rose_960_720.jpg" alt="rose" style="width: 40%; height: 20%;margin:0px auto;display:block">
+
+
+<h3>
+<hr class="style18" width="80%">
+<footer>
+<h6>Copyright (C) 2016 www.geetaashramthailand.org. All rights reserved.</h6>
+</footer>
+
+      </ion-content>
+   </ion-modal-view>
+</script>
+
+
+<script id = "geetaChapters.html" type = "text/ng-template">
+   <ion-modal-view>
+      <ion-header-bar>
+         <h1 class = "title">{{chapterSelectedHindName}} / {{chapterSelectedEngName}}</h1>
+      </ion-header-bar>
+    
+      <ion-content class="padding" ng-controller="AppCtrl">  
+         <button class = "button icon icon-left ion-ios-close-outline"
+            ng-click = "closeModal5()">Close Modal</button>
+            <img src="img/logo.PNG" alt="geeta ashram" style="width:100%;height:100%;margin:0px auto;display:block"><br>
+            <br>
+
+        <div ng-repeat="shlokas in chapterSelected">
+
+              <h4><b>{{$index + 1}}</b></h4>
+              <h4><b>~ Chapter {{shlokas.chapter}}/Verse {{shlokas.verse}}</b></h4>
+              <br>
+              <img src="img/dew.png" alt="dew" style="width: 35px; height: 35px;margin:0px auto;display:block">
+              <br>
+              <h4 ng-show="engAbled"><b>{{shlokas.Quoted_by}}</b></h4>
+              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine1}}</b></h4>
+              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine2}}</b></h4>
+              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine3}}</b></h4>
+              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine4}}</b></h4>
+              <br>
+              <h4 ng-show="engDescAbled">{{shlokas.Description}}</h4>
+              <br>
+              <h4><b>{{shlokas.Quoted_by_san}}:</b></h4>
+              <h4><b>{{shlokas.ShlokaSanLine1}}</b></h4>
+              <h4><b>{{shlokas.ShlokaSanLine2}}</b></h4>
+              <h4><b>{{shlokas.ShlokaSanLine3}}</b></h4>
+              <h4><b>{{shlokas.ShlokaSanLine4}}</b></h4>
+              <br>
+              <h4 ng-show="hindDescAbled">{{shlokas.DescriptionSan}}</h4>
+              <br><br>
+         </div>
+
+<br>
+<hr class="style18" width="80%">
+<br>
+<footer>
+<h6>Copyright (C) 2016 www.geetaashramthailand.org. All rights reserved.</h6>
+</footer>
+      </ion-content>
+   </ion-modal-view>
+</script>
+
+
+    <!-- ion-nav-buttons side="right">
+        <button class="button button-clear" ng-hide="!OMDB_RESULTS" ng-click="clearSearch()">Clear</button>
+    </ion-nav-buttons> -->
+
+
+  
