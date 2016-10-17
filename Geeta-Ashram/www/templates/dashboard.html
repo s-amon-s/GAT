@@ -299,7 +299,6 @@
             ng-click = "closeModal5()">Close Modal</button>
             <img src="img/logo.PNG" alt="geeta ashram" style="width:100%;height:100%;margin:0px auto;display:block"><br>
             <br>
-
         <div ng-repeat="shlokas in chapterSelected">
 
               <h4><b>{{$index + 1}}</b></h4>
@@ -307,21 +306,21 @@
               <br>
               <img src="img/dew.png" alt="dew" style="width: 35px; height: 35px;margin:0px auto;display:block">
               <br>
-              <h4 ng-show="engAbled"><b>{{shlokas.Quoted_by}}</b></h4>
-              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine1}}</b></h4>
-              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine2}}</b></h4>
-              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine3}}</b></h4>
-              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine4}}</b></h4>
+              <h4 ng-show="engAbled"><b>{{shlokas.Quoted_by | highlight }}</b></h4>
+              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine1 | highlight }}</b></h4>
+              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine2 | highlight }}</b></h4>
+              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine3 | highlight }}</b></h4>
+              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine4 | highlight }}</b></h4>
               <br>
-              <h4 ng-show="engDescAbled">{{shlokas.Description}}</h4>
+              <h4 ng-show="engDescAbled">{{shlokas.Description | highlight }}</h4>
               <br>
-              <h4><b>{{shlokas.Quoted_by_san}}:</b></h4>
-              <h4><b>{{shlokas.ShlokaSanLine1}}</b></h4>
-              <h4><b>{{shlokas.ShlokaSanLine2}}</b></h4>
-              <h4><b>{{shlokas.ShlokaSanLine3}}</b></h4>
-              <h4><b>{{shlokas.ShlokaSanLine4}}</b></h4>
+              <h4><b>{{shlokas.Quoted_by_san | highlight }}:</b></h4>
+              <h4><b>{{shlokas.ShlokaSanLine1 | highlight }}</b></h4>
+              <h4><b>{{shlokas.ShlokaSanLine2 | highlight }}</b></h4>
+              <h4><b>{{shlokas.ShlokaSanLine3 | highlight }}</b></h4>
+              <h4><b>{{shlokas.ShlokaSanLine4 | highlight }}</b></h4>
               <br>
-              <h4 ng-show="hindDescAbled">{{shlokas.DescriptionSan}}</h4>
+              <h4 ng-show="hindDescAbled">{{shlokas.DescriptionSan | highlight}}</h4>
               <br><br>
          </div>
 
@@ -334,6 +333,24 @@
       </ion-content>
    </ion-modal-view>
 </script>
+
+             <!--  <h4 ng-show="engAbled" ng-bind-html-unsafe="shlokas.Quoted_by | highlightWord : shlokaSearchTerm"><b></b></h4>
+              <h4 ng-show="engAbled" ng-bind-html-unsafe="shlokas.ShlokaEngLine1 | highlightWord : shlokaSearchTerm"><b></b></h4>
+              <h4 ng-show="engAbled" ng-bind-html-unsafe="shlokas.ShlokaEngLine2 | highlightWord : shlokaSearchTerm"><b></b></h4>
+              <h4 ng-show="engAbled" ng-bind-html-unsafe="shlokas.ShlokaEngLine3 | highlightWord : shlokaSearchTerm"><b></b></h4>
+              <h4 ng-show="engAbled" ng-bind-html-unsafe="shlokas.ShlokaEngLine4 | highlightWord : shlokaSearchTerm"><b></b></h4>
+              <br>
+              <h4 ng-show="engDescAbled" ng-bind-html-unsafe="shlokas.Description | highlightWord : shlokaSearchTerm"></h4>
+              <br>
+              <h4 ng-bind-html-unsafe="shlokas.Quoted_by_san | highlightWord : shlokaSearchTerm"><b></b></h4>
+              <h4 ng-bind-html-unsafe="shlokas.ShlokaSanLine4 | highlightWord : shlokaSearchTerm"><b></b></h4>
+              <h4 ng-bind-html-unsafe="shlokas.ShlokaSanLine4 | highlightWord : shlokaSearchTerm"><b></b></h4>
+              <h4 ng-bind-html-unsafe="shlokas.ShlokaSanLine4 | highlightWord : shlokaSearchTerm"><b></b></h4>
+              <h4 ng-bind-html-unsafe="shlokas.ShlokaSanLine4 | highlightWord : shlokaSearchTerm"><b></b></h4>
+              <br>
+              <h4 ng-show="hindDescAbled" ng-bind-html-unsafe="shlokas.DescriptionSan | highlightWord : shlokaSearchTerm"></h4>
+              <br> -->
+
 
 
     <!-- ion-nav-buttons side="right">

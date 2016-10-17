@@ -3,7 +3,6 @@ angular.module('starter.controllers', [])
 .controller('AppCtrl', function($scope,$omdbservice,$geeta,$state, $rootScope, $ionicPopup, $ionicSideMenuDelegate, $ionicLoading, $timeout,$ionicModal,$http,$sce,$cordovaMedia){
 
   $scope.mySearch = {}; // create empty object for search params
-  $scope.keyWordSearch = '';
   $scope.engLish = true;  
   $scope.hindDesc = true; 
   $scope.engDesc = true;
@@ -190,13 +189,13 @@ angular.module('starter.controllers', [])
   
   // Execute action on remove modal
   $scope.$on('modal.shown', function() {
-    console.log($scope.keyWordSearch);
-    console.log('modal is shown now');
+    console.log('modal is shown now: '+ $scope.shlokaSearchTerm);
+
   });
 
   $scope.$on('modal.removed', function() {
       $scope.clearInputs();
-      console.log('modal is removed');
+      console.log('modal is removed: '+ $scope.shlokaSearchTerm);
   });
 
    $scope.movieDetail = function(mId,year){
@@ -401,8 +400,6 @@ angular.module('starter.controllers', [])
     var searchTerm = parseInt(verseNo);
     $geeta.getVerse(searchTerm).then(function(res){      
       $scope.chapterSelected.push(res);
-      console.log('Got Back!');
-      console.log($scope.chapterSelected);
       if (searchTerm > 0 && searchTerm <= 700){
         $scope.chapterSelectedEngName = ' Verse Number : '+ searchTerm;  
       }else{
@@ -425,7 +422,6 @@ angular.module('starter.controllers', [])
     });
   }
   $scope.searchAllShlokas = function(searchTerm){
-     $scope.keyWordSearch = searchTerm;
       $ionicLoading.show({
           template: "Loading Your Match..."
       });
@@ -452,7 +448,6 @@ angular.module('starter.controllers', [])
 
   $scope.clearInputs = function(){
     document.getElementById("cS").selectedIndex = -1;
-    $scope.keyWordSearch = '';
     console.log('inside clearInputs');
     var elements = document.getElementsByTagName("input");
     for (var ii=0; ii < elements.length; ii++) {
