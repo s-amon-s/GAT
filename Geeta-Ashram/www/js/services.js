@@ -209,7 +209,13 @@ angular.module('starter.services', [])
                 });
               });
             }
-
+            else{
+              cordova.plugins.settings.open(function(){
+                  deferred.resolve(true);
+                }, function(){
+                    deferred.reject(false);
+                });  
+            }
             return deferred.promise; // return promise to requesting controller to wait for asyn response from this service
         }
     }

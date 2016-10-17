@@ -156,11 +156,11 @@ angular.module('starter.controllers', [])
     $scope.toggleLeft();
     $timeout(function() {
       $scope.toggleLeft();
-      $connection.connectionPrompt('You must connect to internet.<br><b>Connect Now<b>').then(function(res){
+      $connection.connectionPrompt('You must be online to listen to audio traks and use some features.<br><b>Connect Now<b>').then(function(res){
         if(res){
           $connection.openSetting('wireless').then(function(res){
             alert(res);
-          })
+          })  
         }
       })
     }, 1800);
