@@ -3,4 +3,5 @@ cordova plugin add uk.co.workingedge.phonegap.plugin.launchnavigator
 cordova plugin add cordova-plugin-network-information
 cordova plugin add cordova-plugin-appavailability
 cordova plugin add cordova-plugin-device
+cordova plugin add https://github.com/selahssea/Cordova-open-native-settings.git
 cordova plugins --save

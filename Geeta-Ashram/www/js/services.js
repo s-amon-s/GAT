@@ -94,51 +94,123 @@ angular.module('starter.services', [])
   }
 }])
 
-.factory('Chats', function() {
-  // Might use a resource here that returns a JSON array
+.factory('$events', ['$http','$q','$rootScope', function($http,$q,$rootScope) {
+    return {
+        fetch: function(params) {
+            var deferred = $q.defer(); //create promise to handle async data
+            console.log("PARAMS: ",params);
+          
+            var searchtype = params.id ? "i" : "s"; /// What type of search is this, ID or TITLE?
+            var search = params.id ? params.id : params.title; /// Which param to use ID or STRING?
 
-  // Some fake testing data
-  var chats = [{
-    id: 0,
-    name: 'Ben Sparrow',
-    lastText: 'You on your way?',
-    face: 'img/ben.png'
-  }, {
-    id: 1,
-    name: 'Max Lynx',
-    lastText: 'Hey, it\'s me',
-    face: 'img/max.png'
-  }, {
-    id: 2,
-    name: 'Adam Bradleyson',
-    lastText: 'I should buy a boat',
-    face: 'img/adam.jpg'
-  }, {
-    id: 3,
-    name: 'Perry Governor',
-    lastText: 'Look at my mukluks!',
-    face: 'img/perry.png'
-  }, {
-    id: 4,
-    name: 'Mike Harrington',
-    lastText: 'This is wicked good ice cream.',
-    face: 'img/mike.png'
-  }];
+            $http.get("http://www.omdbapi.com/?"+searchtype+"="+search+"&y="+params.year+"&plot="+$rootScope.userSettings.plot+"&tomatoes=true&r="+$rootScope.userSettings.feedType)
+            .success(function(data) {
+                console.log(data)
+                deferred.resolve(data); // resolve promise with data
+            })
+            .error(function(msg, code) {
+                deferred.reject(msg); // reject promise with message
+            });
 
-  return {
-    all: function() {
-      return chats;
-    },
-    remove: function(chat) {
-      chats.splice(chats.indexOf(chat), 1);
-    },
-    get: function(chatId) {
-      for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
+            return deferred.promise; // return promise to requesting controller to wait for asyn response from this service
+        },
+        update: function(mId,year){
+          var deferred = $q.defer(); //create promise to handle async data
+          var searchtype = "i";
+          var search = mId;
+          $http.get("http://www.omdbapi.com/?"+searchtype+"="+search+"&y="+year+"&plot="+$rootScope.userSettings.plot+"&tomatoes=true&r="+$rootScope.userSettings.feedType)
+            .success(function(data) {
+                console.log(data)
+                deferred.resolve(data); // resolve promise with data
+            })
+            .error(function(msg, code) {
+                deferred.reject(msg); // reject promise with message
+            });
+
+            return deferred.promise; // return promise to requesting controller to wait for asyn response from this service
         }
-      }
-      return null;
     }
-  };
-});
+}])
+
+.factory('$satsangs', ['$http','$q','$rootScope', function($http,$q,$rootScope) {
+    return {
+        download: function(params) {
+            var deferred = $q.defer(); //create promise to handle async data
+            console.log("PARAMS: ",params);
+          
+            var searchtype = params.id ? "i" : "s"; /// What type of search is this, ID or TITLE?
+            var search = params.id ? params.id : params.title; /// Which param to use ID or STRING?
+
+            $http.get("http://www.omdbapi.com/?"+searchtype+"="+search+"&y="+params.year+"&plot="+$rootScope.userSettings.plot+"&tomatoes=true&r="+$rootScope.userSettings.feedType)
+            .success(function(data) {
+                console.log(data)
+                deferred.resolve(data); // resolve promise with data
+            })
+            .error(function(msg, code) {
+                deferred.reject(msg); // reject promise with message
+            });
+
+            return deferred.promise; // return promise to requesting controller to wait for asyn response from this service
+        },
+        play: function(mId,year){
+          var deferred = $q.defer(); //create promise to handle async data
+          var searchtype = "i";
+          var search = mId;
+          $http.get("http://www.omdbapi.com/?"+searchtype+"="+search+"&y="+year+"&plot="+$rootScope.userSettings.plot+"&tomatoes=true&r="+$rootScope.userSettings.feedType)
+            .success(function(data) {
+                console.log(data)
+                deferred.resolve(data); // resolve promise with data
+            })
+            .error(function(msg, code) {
+                deferred.reject(msg); // reject promise with message
+            });
+
+            return deferred.promise; // return promise to requesting controller to wait for asyn response from this service
+        }
+    }
+}])
+.factory('$connection', ['$http','$q','$rootScope','$ionicPopup', '$ionicLoading', '$timeout', function($http,$q,$rootScope,$ionicPopup, $ionicLoading, $timeout) {
+    return {
+        connectionPrompt: function(templateText) {
+            var deferred = $q.defer(); //create promise to handle async data
+            
+            if(navigator.network.connection.type == Connection.NONE){
+               var confirmPopup = $ionicPopup.confirm({
+                 title: 'You are not online!',
+                 template: templateText
+               });
+
+               confirmPopup.then(function(res) {
+                 if(res) {
+                  deferred.resolve(res);
+                   // $scope.openSetting('wireless');
+                 } else {
+                   deferred.reject(false);
+                 }
+               });
+            }else{
+                deferred.resolve(12);
+            }
+
+            return deferred.promise; // return promise to requesting controller to wait for asyn response from this service
+        },
+        openSetting: function(settingType){
+          var deferred = $q.defer(); //create promise to handle async data
+            if(typeof cordova.plugins.settings.openSetting != undefined){
+                cordova.plugins.settings.openSetting(setting, function(){
+                deferred.resolve(true);
+              },
+              function(){
+                alert("failed to open "+ setting);
+                cordova.plugins.settings.open(function(){
+                  deferred.resolve(true);
+                }, function(){
+                    deferred.reject(false);
+                });
+              });
+            }
+
+            return deferred.promise; // return promise to requesting controller to wait for asyn response from this service
+        }
+    }
+}]);

@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope,$omdbservice,$geeta,$state, $rootScope, $ionicPopup, $ionicSideMenuDelegate, $ionicLoading, $timeout,$ionicModal,$http,$sce,$cordovaMedia){
+.controller('AppCtrl', function($scope,$omdbservice,$geeta,$connection,$events,$satsangs,$state, $rootScope, $ionicPopup, $ionicSideMenuDelegate, $ionicLoading, $timeout,$ionicModal,$http,$sce,$cordovaMedia){
 
   $scope.mySearch = {}; // create empty object for search params
   $scope.engLish = true;  
@@ -96,39 +96,43 @@ angular.module('starter.controllers', [])
 
   /// Core Search Function
   $scope.doSearch = function(mySearch){
-    if(navigator.network.connection.type == Connection.NONE){ // check if search is by imdbID or Title
-      var alertPopup = $ionicPopup.alert({
-          title: 'No Connection!',
-            template: 'You are not online. Connect to internet and Try again'
-          });
-          $state.go("app.dashboard");
-          $ionicSideMenuDelegate.toggleLeft();
-    }else{
-      $ionicLoading.show({
-          template: "Loading data..."
-      })
-      $omdbservice.searchOMDB(mySearch).then(function(res){ //retrieve data from OMDB
-        $ionicLoading.hide();
-        if(res.Response == "True"){ /// check for valid return
-          $scope.OMDB_RESULTS = res.Search; /// assign response to $scope
-          $ionicModal.fromTemplateUrl('movieQueryResultList.html',{
-          scope: $scope,
-          animation: 'slide-in-up'
-          }).then(function(modal) {
-              $scope.modal = modal;
-              $scope.modal.show();
-         });
-        // $state.go("app.movieQueryResultList",mySearch) /// 
-        }else{
-          var alertPopup = $ionicPopup.alert({
-          title: 'Error!',
-            template: 'It doesn\'t look like that search worked. Try again'
-          });
-          $state.go("app.dashboard")
-          $ionicSideMenuDelegate.toggleLeft()
+    // check if search is by imdbID or Title
+    $connection.connectionPrompt('You must connect to internet.<br><b>Connect Now<b>').then(function(res){
+      alert(res);
+      if(res == 12){ 
+        $ionicLoading.show({
+            template: "Loading data..."
+        })
+        $omdbservice.searchOMDB(mySearch).then(function(res){ //retrieve data from OMDB
+          $ionicLoading.hide();
+          if(res.Response == "True"){ /// check for valid return
+            $scope.OMDB_RESULTS = res.Search; /// assign response to $scope
+            $ionicModal.fromTemplateUrl('movieQueryResultList.html',{
+            scope: $scope,
+            animation: 'slide-in-up'
+            }).then(function(modal) {
+                $scope.modal = modal;
+                $scope.modal.show();
+           });
+          // $state.go("app.movieQueryResultList",mySearch) /// 
+          }else{
+            var alertPopup = $ionicPopup.alert({
+            title: 'Error!',
+              template: 'It doesn\'t look like that search worked. Try again'
+            });
+            $state.go("app.dashboard")
+            $ionicSideMenuDelegate.toggleLeft()
+          }
+        })
+      }else{
+          if(res){
+          $connection.openSetting('wireless').then(function(res){
+            alert(res);
+          })
         }
-      })
-    }
+            
+      }
+  })
     $ionicSideMenuDelegate.isOpen() ? $ionicSideMenuDelegate.toggleLeft() : null; /// close side menu
   }
 
@@ -152,6 +156,13 @@ angular.module('starter.controllers', [])
     $scope.toggleLeft();
     $timeout(function() {
       $scope.toggleLeft();
+      $connection.connectionPrompt('You must connect to internet.<br><b>Connect Now<b>').then(function(res){
+        if(res){
+          $connection.openSetting('wireless').then(function(res){
+            alert(res);
+          })
+        }
+      })
     }, 1800);
   }, 500);
 
@@ -267,19 +278,13 @@ angular.module('starter.controllers', [])
 
 
   $scope.toggleEnglish = function(){
-    console.log('Came In here<br> engLish changed from '+ $scope.engLish + ' to: ');
     $scope.engLish = $scope.engLish == false ? true : false;
-    console.log($scope.engLish);
   };
   $scope.togglehindDesc = function(){
-    console.log('Came In here<br> hindDesc changed from '+ $scope.hindDesc + ' to: ');
     $scope.hindDesc = $scope.hindDesc == false ? true : false;
-    console.log($scope.hindDesc);
   };
   $scope.toggleengDesc = function(){
-    console.log('Came In here<br> engDesc changed from '+ $scope.engDesc + ' to: ');
     $scope.engDesc = $scope.engDesc == false ? true : false;
-    console.log($scope.engDesc);
   };
 
   $scope.contactUs = function(){
@@ -306,7 +311,6 @@ angular.module('starter.controllers', [])
 
 // Social Network and Contact Us controllers
   $scope.openFb = function(){
-
     $ionicLoading.show({
           template: "Looking for app...",
           duration: 1500
@@ -362,9 +366,11 @@ angular.module('starter.controllers', [])
 
 
   $scope.searchCh = function(ch){
+
       $ionicLoading.show({
         template: "Loading Your Match...",
       });
+
       $scope.chapterSelected = [];
       
       $geeta.getChapterRelatedSholkas(ch.id,ch.starting,ch.ending).then(function(res){
@@ -470,12 +476,10 @@ angular.module('starter.controllers', [])
       }
   };
 
-
-
 })
 
 
-.controller('eventFeedsCtrl',function ($scope,$state, $rootScope, $ionicPopup, $ionicSideMenuDelegate, $ionicLoading, $timeout,$ionicModal,$http){
+.controller('eventFeedsCtrl',function ($scope,$state,$connection, $rootScope, $ionicPopup, $ionicSideMenuDelegate, $ionicLoading, $timeout,$ionicModal,$http){
 
   $scope.events = [ {id:1,title:"Geeta Jayanti", description: "18 days celebration of Geeta Maa", img: "img/krishna_arjun.jpg"},
                     {id:2,title:"Event 2", description: "description 2", img: "img/splash.png"},
@@ -490,27 +494,15 @@ angular.module('starter.controllers', [])
   };
 
   $scope.checkFeed = function(){
-    if(navigator.network.connection.type == Connection.NONE){
-       $scope.showConfirm = function() {
-        alert('Not Connected');
-       var confirmPopup = $ionicPopup.confirm({
-         title: 'You are not online!',
-         template: 'You must connect to internet to refresh.<br><b>Connect Now<b>'
-       });
-
-       confirmPopup.then(function(res) {
-         if(res) {
-           console.log('You are sure');
-         } else {
-           console.log('You are not sure');
-         }
-       });
-     };
-    }else{
-        alert('No Update');
-    }
+          $connection.connectionPrompt('You must connect to internet.<br><b>Connect Now<b>').then(function(res){
+            alert(res);
+            if (res!=12 && res){
+               $connection.openSetting('wireless').then(function(res){
+                  alert(res);
+              })
+            }
+          })
   };  
-  
 
 })
 
