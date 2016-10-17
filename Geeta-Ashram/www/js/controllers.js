@@ -1,12 +1,12 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope,$omdbservice,$geeta,$connection,$events,$satsangs,$state, $rootScope, $ionicPopup, $ionicSideMenuDelegate, $ionicLoading, $timeout,$ionicModal,$http,$sce,$cordovaMedia){
+.controller('AppCtrl', function($scope,$omdbservice,$geeta,$connection,$events,$satsangs,$state, $rootScope, $ionicPopup, $ionicSideMenuDelegate, $ionicLoading, $timeout,$ionicModal,$http,$sce,$cordovaMedia,$cordovaFile){
 
   $scope.mySearch = {}; // create empty object for search params
   $scope.engLish = true;  
   $scope.hindDesc = true; 
   $scope.engDesc = true;
-  $scope.todayPath = {'Chapter':2,'Verse':5};
+  $scope.todayPath = {};
   $scope.shlokaSearchTerm = '';
   $rootScope.userSettings = {}; // store global user settings
 
@@ -72,33 +72,32 @@ angular.module('starter.controllers', [])
                             { id:18,name:"मोक्षसंन्यासयोग/Mokshsamnyasyog"}
                         ];                      
   
-  $scope.musics = [         { id:1,url:"http://geetaashramthailand.org/Sounds/1.mp3"},
-                            { id:2,url:"http://geetaashramthailand.org/Sounds/2.mp3"},
-                            { id:3,url:"http://geetaashramthailand.org/Sounds/3.mp3"},
-                            { id:4,url:"http://geetaashramthailand.org/Sounds/4.mp3"},
-                            { id:5,url:"http://geetaashramthailand.org/Sounds/5.mp3"},
-                            { id:6,url:"http://geetaashramthailand.org/Sounds/6.mp3"},
-                            { id:7,url:"http://geetaashramthailand.org/Sounds/7.mp3"},
-                            { id:8,url:"http://geetaashramthailand.org/Sounds/8.mp3"},
-                            { id:9,url: "http://geetaashramthailand.org/Sounds/9.mp3"},
-                            { id:10,url:"http://geetaashramthailand.org/Sounds/10.mp3"},
-                            { id:11,url:"http://geetaashramthailand.org/Sounds/11.mp3"},
-                            { id:12,url:"http://geetaashramthailand.org/Sounds/12.mp3"},
-                            { id:13,url:"http://geetaashramthailand.org/Sounds/13.mp3"},
-                            { id:14,url:"http://geetaashramthailand.org/Sounds/14.mp3"},
-                            { id:15,url:"http://geetaashramthailand.org/Sounds/15.mp3"},
-                            { id:16,url:"http://geetaashramthailand.org/Sounds/16.mp3"},
-                            { id:17,url: "http://geetaashramthailand.org/Sounds/17.mp3"},
-                            { id:18,url:"http://geetaashramthailand.org/Sounds/18.mp3"}
+  $scope.musics = [         { id:1,url: $sce.trustAsResourceUrl("http://geetaashramthailand.org/Sounds/1.mp3")},
+                            { id:2,url: $sce.trustAsResourceUrl("http://geetaashramthailand.org/Sounds/2.mp3")},
+                            { id:3,url: $sce.trustAsResourceUrl("http://geetaashramthailand.org/Sounds/3.mp3")},
+                            { id:4,url: $sce.trustAsResourceUrl("http://geetaashramthailand.org/Sounds/4.mp3")},
+                            { id:5,url: $sce.trustAsResourceUrl("http://geetaashramthailand.org/Sounds/5.mp3")},
+                            { id:6,url: $sce.trustAsResourceUrl("http://geetaashramthailand.org/Sounds/6.mp3")},
+                            { id:7,url: $sce.trustAsResourceUrl("http://geetaashramthailand.org/Sounds/7.mp3")},
+                            { id:8,url: $sce.trustAsResourceUrl("http://geetaashramthailand.org/Sounds/8.mp3")},
+                            { id:9,url: $sce.trustAsResourceUrl( "http://geetaashramthailand.org/Sounds/9.mp3")},
+                            { id:10,url: $sce.trustAsResourceUrl("http://geetaashramthailand.org/Sounds/10.mp3")},
+                            { id:11,url: $sce.trustAsResourceUrl("http://geetaashramthailand.org/Sounds/11.mp3")},
+                            { id:12,url: $sce.trustAsResourceUrl("http://geetaashramthailand.org/Sounds/12.mp3")},
+                            { id:13,url: $sce.trustAsResourceUrl("http://geetaashramthailand.org/Sounds/13.mp3")},
+                            { id:14,url: $sce.trustAsResourceUrl("http://geetaashramthailand.org/Sounds/14.mp3")},
+                            { id:15,url: $sce.trustAsResourceUrl("http://geetaashramthailand.org/Sounds/15.mp3")},
+                            { id:16,url: $sce.trustAsResourceUrl("http://geetaashramthailand.org/Sounds/16.mp3")},
+                            { id:17,url: $sce.trustAsResourceUrl( "http://geetaashramthailand.org/Sounds/17.mp3")},
+                            { id:18,url: $sce.trustAsResourceUrl("http://geetaashramthailand.org/Sounds/18.mp3")}
                         ];
 
-  $scope.todayMusic = $scope.musics[($scope.todayPath.Verse)-1].url;
+  $scope.todayMusic = $scope.musics[(1)-1].url;
 
   /// Core Search Function
   $scope.doSearch = function(mySearch){
     // check if search is by imdbID or Title
     $connection.connectionPrompt('You must connect to internet.<br><b>Connect Now<b>').then(function(res){
-      alert(res);
       if(res == 12){ 
         $ionicLoading.show({
             template: "Loading data..."
@@ -126,9 +125,7 @@ angular.module('starter.controllers', [])
         })
       }else{
           if(res){
-          $connection.openSetting('wireless').then(function(res){
-            alert(res);
-          })
+          $connection.openSetting('wifi').then(function(res){});
         }
             
       }
@@ -152,17 +149,30 @@ angular.module('starter.controllers', [])
   $scope.toggleLeft = function() {   /// menu toggle: waiting for timer
     $ionicSideMenuDelegate.toggleLeft();
   }
+
   $timeout(function() { 
     $scope.toggleLeft();
     $timeout(function() {
       $scope.toggleLeft();
       $connection.connectionPrompt('You must be online to listen to audio traks and use some features.<br><b>Connect Now<b>').then(function(res){
-        if(res){
-          $connection.openSetting('wireless').then(function(res){
-            alert(res);
+        if(res!=12 &&res){
+          $connection.openSetting('wifi').then(function(res){
           })  
         }
-      })
+      });
+      $satsangs.dailyRead().then(function(date){
+          $scope.previousDate = date[0].date;
+          $scope.previousMonth = date[0].month;
+          $scope.previousYear = date[0].year;
+          $scope.previousShloka = date[0].shloka;
+          $satsangs.determineShloka($scope.previousShloka,$scope.previousDate,$scope.previousMonth,$scope.previousYear).then(function(res){
+              console.log(res);
+              $geeta.getVerse(res).then(function(res){      
+                  $scope.todayPath = res;
+                  $scope.todayMusic = $scope.musics[res.chapter-1].url;
+                })
+          });
+      });
     }, 1800);
   }, 500);
 
@@ -367,12 +377,8 @@ angular.module('starter.controllers', [])
 
   $scope.searchCh = function(ch){
 
-      $ionicLoading.show({
-        template: "Loading Your Match...",
-      });
-
       $scope.chapterSelected = [];
-      
+     
       $geeta.getChapterRelatedSholkas(ch.id,ch.starting,ch.ending).then(function(res){
 
         $scope.chapterSelected = res;
@@ -382,10 +388,7 @@ angular.module('starter.controllers', [])
         $scope.hindDescAbled = $scope.hindDesc;
         $scope.engDescAbled = $scope.engDesc;
         $scope.music = $scope.musics[ch.id-1].url;
-        $scope.music = $sce.trustAsResourceUrl($scope.music);
         console.log($scope.music);
-        $ionicLoading.hide();
-
         $ionicModal.fromTemplateUrl('geetaChapters.html',{
         scope: $scope,
         animation: 'slide-in-up'
@@ -474,7 +477,7 @@ angular.module('starter.controllers', [])
       } else {
           $ionicLoading.hide();
       }
-  };
+  };    
 
 })
 
@@ -495,10 +498,8 @@ angular.module('starter.controllers', [])
 
   $scope.checkFeed = function(){
           $connection.connectionPrompt('You must connect to internet.<br><b>Connect Now<b>').then(function(res){
-            alert(res);
             if (res!=12 && res){
-               $connection.openSetting('wireless').then(function(res){
-                  alert(res);
+               $connection.openSetting('wifi').then(function(res){
               })
             }
           })

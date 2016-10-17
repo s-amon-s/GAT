@@ -9,18 +9,31 @@
       <br>
       <h3>Today's <b>&quot;One Shlok a day&quot;</b></h3>
       <br><br>
-      <h3><b></b></h3>
+      <h3><b>(Chapter {{todayPath.chapter}} Shlok {{todayPath.verse}})</b></h3>
       <br>
       
       <div align=center id=pronounciation>
         <h6>Voice of Swami Hari Har Ji Maharaj</h6>
-              <!-- <button class="button" ng-click="play({{todayMusic}})">Play from file system</button> -->
-              {{todayMusic}}
+            <audio controls=""><source src="{{todayMusic}}" type="audio/mpeg"></audio>
         <h6>This may take a few seconds</h6>
       </div>
       <br>
       <div id=section>
-        
+              <h4 ng-show="engAbled"><b>{{todayPath.Quoted_by}}</b></h4>
+              <h4 ng-show="engAbled"><b>{{todayPath.ShlokaEngLine1}}</b></h4>
+              <h4 ng-show="engAbled"><b>{{todayPath.ShlokaEngLine2}}</b></h4>
+              <h4 ng-show="engAbled"><b>{{todayPath.ShlokaEngLine3}}</b></h4>
+              <h4 ng-show="engAbled"><b>{{todayPath.ShlokaEngLine4}}</b></h4>
+              <br>
+              <h4 ng-show="engDescAbled">{{todayPath.Description  }}</h4>
+              <br>
+              <h4><b>{{todayPath.Quoted_by_san}}:</b></h4>
+              <h4><b>{{todayPath.ShlokaSanLine1}</b></h4>
+              <h4><b>{{todayPath.ShlokaSanLine2}}</b></h4>
+              <h4><b>{{todayPath.ShlokaSanLine3}}</b></h4>
+              <h4><b>{{todayPath.ShlokaSanLine4}}</b></h4>
+              <br>
+              <h4 ng-show="hindDescAbled">{{todayPath.DescriptionSan}}</h4>
       </div>
     </article>
     <br>
@@ -299,9 +312,11 @@
             ng-click = "closeModal5()">Close Modal</button>
             <img src="img/logo.PNG" alt="geeta ashram" style="width:100%;height:100%;margin:0px auto;display:block"><br>
             <br>
+            <audio controls=""><source src="{{music}}" type="audio/mpeg"></audio>
+            <br>
         <div ng-repeat="shlokas in chapterSelected">
 
-              <h4><b>{{$index + 1}}</b></h4>
+              <h4><b>{{$index + 1}} / #{{shlokas.ShlokaNumber}}</b></h4>
               <h4><b>~ Chapter {{shlokas.chapter}}/Verse {{shlokas.verse}}</b></h4>
               <br>
               <img src="img/dew.png" alt="dew" style="width: 35px; height: 35px;margin:0px auto;display:block">
@@ -315,9 +330,9 @@
               <h4 ng-show="engDescAbled" ng-bind-html="shlokas.Description | highlight"></h4>
               <br>
               <h4 ng-bind-html="shlokas.Quoted_by_san | highlight"><b></b></h4>
-              <h4 ng-bind-html="shlokas.ShlokaSanLine4 | highlight"><b></b></h4>
-              <h4 ng-bind-html="shlokas.ShlokaSanLine4 | highlight"><b></b></h4>
-              <h4 ng-bind-html="shlokas.ShlokaSanLine4 | highlight"><b></b></h4>
+              <h4 ng-bind-html="shlokas.ShlokaSanLine1 | highlight"><b></b></h4>
+              <h4 ng-bind-html="shlokas.ShlokaSanLine2 | highlight"><b></b></h4>
+              <h4 ng-bind-html="shlokas.ShlokaSanLine3 | highlight"><b></b></h4>
               <h4 ng-bind-html="shlokas.ShlokaSanLine4 | highlight"><b></b></h4>
               <br>
               <h4 ng-show="hindDescAbled" ng-bind-html="shlokas.DescriptionSan | highlight"></h4>

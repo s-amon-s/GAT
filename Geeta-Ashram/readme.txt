@@ -4,4 +4,6 @@ cordova plugin add cordova-plugin-network-information
 cordova plugin add cordova-plugin-appavailability
 cordova plugin add cordova-plugin-device
 cordova plugin add https://github.com/selahssea/Cordova-open-native-settings.git
+cordova plugin add cordova-plugin-file
+
 cordova plugins --save
