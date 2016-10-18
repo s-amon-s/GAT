@@ -11,7 +11,7 @@ angular.module('starter.controllers', [])
   $scope.engDesc = true;
   $scope.shlokaSearchTerm = '';
   $rootScope.userSettings = {}; // store global user settings
-  $rootScope.loadAudio = true;
+  
 
   $scope.chapters = [ {id:1,name:"Chapter 1",starting:0,ending:46},
                       {id:2,name:"Chapter 2",starting:47,ending:118},
@@ -118,7 +118,7 @@ $scope.doRefresh = function(page) {
             $geeta.getVerse(res.verse).then(function(res){      
                 $scope.todayPath = res;
                 $scope.todayMusic = $scope.musics[(res.chapter)-1].url;
-                $scope.doRefresh('devotees');
+                // $scope.doRefresh('devotees');
               });
         });
     });
@@ -127,19 +127,19 @@ $scope.doRefresh = function(page) {
           $connection.openSetting('wifi').then(function(res){
           })  
        }else{
-        $rootScope.loadAudio = false;
+        
        }
   });
     }, 1800);
   }, 500);
 
 $rootScope.$on('$cordovaNetwork:online', function(event, networkState){
-      $rootScope.loadAudio = true;
+      
 })
 
     // listen for Offline event
 $rootScope.$on('$cordovaNetwork:offline', function(event, networkState){
-  $rootScope.loadAudio = false;
+  
       $connection.connectionPrompt('You must be online to listen to audio traks and use some features.<br><b>Connect Now<b>').then(function(res){
         if(res!=12 &&res){
           $connection.openSetting('wifi').then(function(res){
