@@ -132,7 +132,7 @@ angular.module('starter.services', [])
     }
 }])
 
-.factory('$satsangs', ['$http','$q','$rootScope','$cordovaFile', function($http,$q,$rootScope,$cordovaFile) {
+.factory('$satsangs', ['$http','$q','$rootScope','$cordovaFile', function($http,$q,$rootScope,$cordovaFile,$cordovaSQLite) {
     return {
         download: function(params) {
             var deferred = $q.defer(); //create promise to handle async data
@@ -152,22 +152,25 @@ angular.module('starter.services', [])
 
             return deferred.promise; // return promise to requesting controller to wait for asyn response from this service
         },
-        dailyWrite: function(){
+        dailyWrite: function(verse,day,month,year){
           var deferred = $q.defer(); //create promise to handle async data
-          var path = 'js/data/';
-          var file = 'dailyShloka.json';
-          var replace = true;
-          $cordovaFile.writeFile(path, file, data, replace)
-          var fs = require('fs');
-          fs.writeFile('myjsonfile.json', json, 'utf8', callback);
+          var db = $cordovaSQLite.openDB({ name: "dailyShloka.db", location: 'default', bgType: 1 });
+          $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS store (id integer primary key AUTOINCREMENT, date integer, month integer,year integer ,verse integer )"); 
+          var data = db.executeSql('INSERT INTO store (date,month,year,verse) VALUES ("' +day+'","' +month+'","' +year+'","' +verse+'")');
           deferred.resolve(data); // resolve promise with data
           return deferred.promise; // return promise to requesting controller to wait for asyn response from this service
         },
         dailyRead: function(){
           var deferred = $q.defer(); //create promise to handle async data
-          $http.get('js/data/dailyShloka.json').success(function(data){
-               deferred.resolve(data);
-          })
+          var data = [
+                        {
+                            "date": 17,
+                            "month": 9,
+                            "year": 2016,
+                            "shloka":52
+                        }
+                    ];
+          deferred.resolve(data);
            // resolve promise with data
           return deferred.promise; // return promise to requesting controller to wait for asyn response from this service
         },
@@ -179,41 +182,43 @@ angular.module('starter.services', [])
           console.log(verse);
           var first = new Date(year, month, day).getTime();
           console.log(first);
-          var second = new Date().getTime();
+          var today = new Date();
+          var second = today.getTime();
           console.log(second);
           var dayDiff =  Math.floor((second-first)/(1000*60*60*24));
-          var todayShloka = verse;
+          var todayShloka = {'verse':verse,'needWriting':false};
           console.log('daydiff :'+dayDiff );
           if(dayDiff>0){
-              todayShloka = (verse + dayDiff)%700; 
+              todayShloka.verse = (verse + dayDiff)%700;
+              todayShloka.needWriting = true;
           }
           deferred.resolve(todayShloka); // resolve promise with data
           return deferred.promise; // return promise to requesting controller to wait for asyn response from this service
         }
     }
 }])
-.factory('$connection', ['$http','$q','$rootScope','$ionicPopup', '$ionicLoading', '$timeout', function($http,$q,$rootScope,$ionicPopup, $ionicLoading, $timeout) {
+.factory('$connection', ['$http','$q','$rootScope','$ionicPopup', '$ionicLoading', '$timeout', function($http,$q,$rootScope,$ionicPopup, $ionicLoading, $timeout,$cordovaNetwork) {
     return {
         connectionPrompt: function(templateText) {
             var deferred = $q.defer(); //create promise to handle async data
             
-            // if(navigator.network.connection.type == Connection.NONE){
-            //    var confirmPopup = $ionicPopup.confirm({
-            //      title: 'You are not online!',
-            //      template: templateText
-            //    });
+            if(navigator.network.connection.type == Connection.NONE){
+               var confirmPopup = $ionicPopup.confirm({
+                 title: 'You are not online!',
+                 template: templateText
+               });
 
-            //    confirmPopup.then(function(res) {
-            //      if(res) {
-            //       deferred.resolve(res);
-            //        // $scope.openSetting('wireless');
-            //      } else {
-            //        deferred.reject(false);
-            //      }
-            //    });
-            // }else{
-            //     deferred.resolve(12);
-            // }
+               confirmPopup.then(function(res) {
+                 if(res) {
+                  deferred.resolve(res);
+                   // $scope.openSetting('wireless');
+                 } else {
+                   deferred.reject(false);
+                 }
+               });
+            }else{
+                deferred.resolve(12);
+            }
 
             return deferred.promise; // return promise to requesting controller to wait for asyn response from this service
         },
@@ -241,6 +246,44 @@ angular.module('starter.services', [])
                 });  
             }
             return deferred.promise; // return promise to requesting controller to wait for asyn response from this service
+        },
+    isOnline: function(){
+      if(ionic.Platform.isWebView()){
+        return $cordovaNetwork.isOnline();    
+      } else {
+        return navigator.onLine;
+      }
+    },
+    isOffline: function(){
+      if(ionic.Platform.isWebView()){
+        return !$cordovaNetwork.isOnline();    
+      } else {
+        return !navigator.onLine;
+      }
+    },
+    startWatching: function(){
+        if(ionic.Platform.isWebView()){
+ 
+          $rootScope.$on('$cordovaNetwork:online', function(event, networkState){
+            console.log("went online");
+          });
+ 
+          $rootScope.$on('$cordovaNetwork:offline', function(event, networkState){
+            console.log("went offline");
+          });
+ 
         }
+        else {
+ 
+          window.addEventListener("online", function(e) {
+            console.log("went online");
+          }, false);    
+ 
+          window.addEventListener("offline", function(e) {
+            console.log("went offline");
+          }, false);  
+        }       
+    }
     }
 }]);
+

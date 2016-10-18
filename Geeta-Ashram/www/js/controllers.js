@@ -1,14 +1,17 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope,$omdbservice,$geeta,$connection,$events,$satsangs,$state, $rootScope, $ionicPopup, $ionicSideMenuDelegate, $ionicLoading, $timeout,$ionicModal,$http,$sce,$cordovaMedia,$cordovaFile){
+.controller('AppCtrl', function($scope,$omdbservice,$geeta,$connection,$events,$satsangs,$state, $rootScope, $ionicPopup, $ionicSideMenuDelegate, $ionicLoading, $timeout,$ionicModal,$http,$sce,$cordovaMedia,$cordovaFile,$ionicPlatform){
+
+// Use this script
+// http://www.webspeaks.in/2015/03/html5-offline-mobile-app-using-ionic-pouchdb.html
 
   $scope.mySearch = {}; // create empty object for search params
   $scope.engLish = true;  
   $scope.hindDesc = true; 
   $scope.engDesc = true;
-  $scope.todayPath = {};
   $scope.shlokaSearchTerm = '';
   $rootScope.userSettings = {}; // store global user settings
+  $rootScope.loadAudio = true;
 
   $scope.chapters = [ {id:1,name:"Chapter 1",starting:0,ending:46},
                       {id:2,name:"Chapter 2",starting:47,ending:118},
@@ -92,7 +95,77 @@ angular.module('starter.controllers', [])
                             { id:18,url: $sce.trustAsResourceUrl("http://geetaashramthailand.org/Sounds/18.mp3")}
                         ];
 
-  $scope.todayMusic = $scope.musics[(1)-1].url;
+$ionicPlatform.ready(function() {
+    onDeviceReady();
+})
+
+$scope.doRefresh = function(page) {
+  $state.go("app."+page); //'/new-items'
+    // $http.get(page).success(function(){}).finally(function() {});
+};
+
+ $timeout(function() { 
+    $scope.toggleLeft();
+    $timeout(function() {
+      $scope.toggleLeft();
+
+    $satsangs.dailyRead().then(function(date){
+        $scope.previousDate = date[0].date;
+        $scope.previousMonth = date[0].month;
+        $scope.previousYear = date[0].year;
+        $scope.previousShloka = date[0].shloka;
+        $satsangs.determineShloka($scope.previousShloka,$scope.previousDate,$scope.previousMonth,$scope.previousYear).then(function(res){
+            $geeta.getVerse(res.verse).then(function(res){      
+                $scope.todayPath = res;
+                $scope.todayMusic = $scope.musics[(res.chapter)-1].url;
+                $scope.doRefresh('devotees');
+              });
+        });
+    });
+      $connection.connectionPrompt('You must be online to listen to audio traks and use some features.<br><b>Connect Now<b>').then(function(res){
+        if(res!=12 &&res){
+          $connection.openSetting('wifi').then(function(res){
+          })  
+       }else{
+        $rootScope.loadAudio = false;
+       }
+  });
+    }, 1800);
+  }, 500);
+
+$rootScope.$on('$cordovaNetwork:online', function(event, networkState){
+      $rootScope.loadAudio = true;
+})
+
+    // listen for Offline event
+$rootScope.$on('$cordovaNetwork:offline', function(event, networkState){
+  $rootScope.loadAudio = false;
+      $connection.connectionPrompt('You must be online to listen to audio traks and use some features.<br><b>Connect Now<b>').then(function(res){
+        if(res!=12 &&res){
+          $connection.openSetting('wifi').then(function(res){
+          })  
+       }
+  });
+})
+// device APIs are available
+//
+function onDeviceReady() {
+    document.addEventListener("pause", onPause, false);
+    document.addEventListener("resume", onResume, false);
+    document.addEventListener("menubutton", onMenuKeyDown, false);
+    // Add similar listeners for other events
+}
+function onPause() {
+    // Handle the pause event
+}
+
+function onResume() {
+    // Handle the resume event
+}
+
+function onMenuKeyDown() {
+    // Handle the menubutton event
+}
 
   /// Core Search Function
   $scope.doSearch = function(mySearch){
@@ -149,33 +222,7 @@ angular.module('starter.controllers', [])
   $scope.toggleLeft = function() {   /// menu toggle: waiting for timer
     $ionicSideMenuDelegate.toggleLeft();
   }
-
-  $timeout(function() { 
-    $scope.toggleLeft();
-    $timeout(function() {
-      $scope.toggleLeft();
-      $connection.connectionPrompt('You must be online to listen to audio traks and use some features.<br><b>Connect Now<b>').then(function(res){
-        if(res!=12 &&res){
-          $connection.openSetting('wifi').then(function(res){
-          })  
-        }
-      });
-      $satsangs.dailyRead().then(function(date){
-          $scope.previousDate = date[0].date;
-          $scope.previousMonth = date[0].month;
-          $scope.previousYear = date[0].year;
-          $scope.previousShloka = date[0].shloka;
-          $satsangs.determineShloka($scope.previousShloka,$scope.previousDate,$scope.previousMonth,$scope.previousYear).then(function(res){
-              console.log(res);
-              $geeta.getVerse(res).then(function(res){      
-                  $scope.todayPath = res;
-                  $scope.todayMusic = $scope.musics[res.chapter-1].url;
-                })
-          });
-      });
-    }, 1800);
-  }, 500);
-
+  
   $scope.closeModal = function() {
      $scope.modal.remove();
   };
@@ -501,6 +548,8 @@ angular.module('starter.controllers', [])
             if (res!=12 && res){
                $connection.openSetting('wifi').then(function(res){
               })
+            }else{
+              alert('No Updates!');
             }
           })
   };  

@@ -11,10 +11,9 @@
       <br><br>
       <h3><b>(Chapter {{todayPath.chapter}} Shlok {{todayPath.verse}})</b></h3>
       <br>
-      
       <div align=center id=pronounciation>
         <h6>Voice of Swami Hari Har Ji Maharaj</h6>
-            <audio controls=""><source src="{{todayMusic}}" type="audio/mpeg"></audio>
+            <audio controls="" ng-if="loadAudio"><source src="{{todayMusic}}" type="audio/mpeg"></audio>
         <h6>This may take a few seconds</h6>
       </div>
       <br>
@@ -25,7 +24,7 @@
               <h4 ng-show="engAbled"><b>{{todayPath.ShlokaEngLine3}}</b></h4>
               <h4 ng-show="engAbled"><b>{{todayPath.ShlokaEngLine4}}</b></h4>
               <br>
-              <h4 ng-show="engDescAbled">{{todayPath.Description  }}</h4>
+              <h4 ng-show="engDescAbled">{{todayPath.Description}}</h4>
               <br>
               <h4><b>{{todayPath.Quoted_by_san}}:</b></h4>
               <h4><b>{{todayPath.ShlokaSanLine1}</b></h4>
@@ -312,7 +311,7 @@
             ng-click = "closeModal5()">Close Modal</button>
             <img src="img/logo.PNG" alt="geeta ashram" style="width:100%;height:100%;margin:0px auto;display:block"><br>
             <br>
-            <audio controls=""><source src="{{music}}" type="audio/mpeg"></audio>
+            <audio controls="" ng-if="loadAudio"><source src="{{music}}" type="audio/mpeg"></audio>
             <br>
         <div ng-repeat="shlokas in chapterSelected">
 
