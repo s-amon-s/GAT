@@ -11,6 +11,9 @@ angular.module('starter.controllers', [])
   $scope.engDesc = true;
   $scope.shlokaSearchTerm = '';
   $rootScope.userSettings = {}; // store global user settings
+  $scope.audio = $sce.trustAsResourceUrl("http://ia800300.us.archive.org/6/items/ANNAMACHARYA_772/VasudevaSutamDevamspbs.mp3");
+  var notAsked = true;
+  var media;
   
 
   $scope.chapters = [ {id:1,name:"Chapter 1",starting:0,ending:46},
@@ -30,7 +33,8 @@ angular.module('starter.controllers', [])
                       {id:15,name:"Chapter 15",starting:550,ending:569},
                       {id:16,name:"Chapter 16",starting:570,ending:593},  
                       {id:17,name:"Chapter 17",starting:594,ending:621},
-                      {id:18,name:"Chapter 18",starting:622,ending:699}  
+                      {id:18,name:"Chapter 18",starting:622,ending:699},
+                      {id:19,name:"Geeta Mahatmyam",starting:622,ending:699} 
                   ];
 
   $scope.chapterEngNames = [
@@ -118,34 +122,42 @@ $scope.doRefresh = function(page) {
             $geeta.getVerse(res.verse).then(function(res){      
                 $scope.todayPath = res;
                 $scope.todayMusic = $scope.musics[(res.chapter)-1].url;
+                // document.getElementById('todayChapterOpen').addEventListener("click",$scope.searchCh($scope.todayMusic),true);
+                $('#todayChapterOpen').click(function(){
+                  $scope.searchCh($scope.chapters[res.chapter-1]);
+               });
                 // $scope.doRefresh('devotees');
               });
         });
     });
       $connection.connectionPrompt('You must be online to listen to audio traks and use some features.<br><b>Connect Now<b>').then(function(res){
         if(res!=12 &&res){
+          notAsked = false;
           $connection.openSetting('wifi').then(function(res){
-          })  
+          });
        }else{
-        
+        if(res==12){
+          notAsked = false;
+        }
        }
   });
     }, 1800);
   }, 500);
 
 $rootScope.$on('$cordovaNetwork:online', function(event, networkState){
-      
 })
 
     // listen for Offline event
 $rootScope.$on('$cordovaNetwork:offline', function(event, networkState){
-  
-      $connection.connectionPrompt('You must be online to listen to audio traks and use some features.<br><b>Connect Now<b>').then(function(res){
-        if(res!=12 &&res){
-          $connection.openSetting('wifi').then(function(res){
-          })  
-       }
-  });
+  console.log('You went offline!, Some feature might not work');
+  //   if(notAsked){
+  //     $connection.connectionPrompt('You must be online to listen to audio traks and use some features.<br><b>Connect Now<b>').then(function(res){
+  //       if(res!=12 &&res){
+  //         $connection.openSetting('wifi').then(function(res){
+  //         })  
+  //      }
+  //   });
+  // }
 })
 // device APIs are available
 //
@@ -153,8 +165,9 @@ function onDeviceReady() {
     document.addEventListener("pause", onPause, false);
     document.addEventListener("resume", onResume, false);
     document.addEventListener("menubutton", onMenuKeyDown, false);
-    // Add similar listeners for other events
+    // Add similar listeners for other event
 }
+
 function onPause() {
     // Handle the pause event
 }
@@ -240,6 +253,9 @@ function onMenuKeyDown() {
       $scope.modal5.remove();
   };
 
+  $scope.closeModal6 = function() {
+      $scope.modal6.remove();
+  };
    //Cleanup the modal when we're done with it!
    $scope.$on('$destroy', function() {
 
@@ -421,9 +437,27 @@ function onMenuKeyDown() {
     return false;
   };
 
+  $scope.openUrl = function(url){
+    window.open(url, "_blank", 'location=yes');
+    return false;
+  };
+
 
   $scope.searchCh = function(ch){
+      if (ch.id == 19) {
+        $ionicLoading.show({
+            template: "Loading data..."
+        });
+        $ionicModal.fromTemplateUrl('geetaMahatmyam.html',{
+        scope: $scope,
+        animation: 'slide-in-up'
+        }).then(function(modal) {
+            $scope.modal6 = modal;
+            $ionicLoading.hide();
+            $scope.modal6.show();
+       });
 
+    }else{
       $scope.chapterSelected = [];
      
       $geeta.getChapterRelatedSholkas(ch.id,ch.starting,ch.ending).then(function(res){
@@ -445,6 +479,7 @@ function onMenuKeyDown() {
             $scope.modal5.show();
        });
     });
+  }
   };
   
   $scope.searchverseNumber = function(verseNo){
@@ -512,20 +547,6 @@ function onMenuKeyDown() {
       }
     }  
   };
-
-  $scope.play = function(src) {
-      var media = new Media(src, null, null, mediaStatusCallback);
-      $cordovaMedia.play(media);
-  }
- 
-  var mediaStatusCallback = function(status) {
-      if(status == 1) {
-          $ionicLoading.show({template: 'Loading...'});
-      } else {
-          $ionicLoading.hide();
-      }
-  };    
-
 })
 
 

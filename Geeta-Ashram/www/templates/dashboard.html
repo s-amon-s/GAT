@@ -1,3 +1,5 @@
+<!-- <button onclick="play('http://ia800300.us.archive.org/6/items/ANNAMACHARYA_772/VasudevaSutamDevamspbs.mp3')">Play Some Audio</button>
+        <button onclick="stopAudio()">Stop Some Audio</button> -->
 <ion-view view-title="Dashboard">
   <ion-content class="padding" >
     <img src="img/logo.PNG" alt="guruji" style="width:100%;height:100%;margin:0px auto;display:block">
@@ -8,12 +10,11 @@
       <h2>Shrimad Bhagwad Geeta</b></h2>
       <br>
       <h3>Today's <b>&quot;One Shlok a day&quot;</b></h3>
-      <br><br>
       <h3><b>(Chapter {{todayPath.chapter}} Shlok {{todayPath.verse}})</b></h3>
       <br>
       <div align=center id=pronounciation>
-        <h6>Voice of Swami Hari Har Ji Maharaj</h6>
-            <audio controls=""><source src="{{todayMusic}}" type="audio/mpeg"></audio>
+        <h6>Voice of SP Balasubrahmanyam</h6>
+            <audio controls=""><source src="http://ia800300.us.archive.org/6/items/ANNAMACHARYA_772/VasudevaSutamDevamspbs.mp3" type="audio/mpeg"></audio>
         <h6>This may take a few seconds</h6>
       </div>
       <br>
@@ -26,7 +27,7 @@
               <br>
               <h4 ng-show="engDescAbled" ng-bind-html="todayPath.Description"></h4>
               <br>
-              <h4 ng-bind-html="todayPath.Quoted_by_san:"><b></b></h4>
+              <h4 ng-bind-html="todayPath.Quoted_by_san"><b>:</b></h4>
               <h4 ng-bind-html="todayPath.ShlokaSanLine1"><b></b></h4>
               <h4 ng-bind-html="todayPath.ShlokaSanLine2"><b></b></h4>
               <h4 ng-bind-html="todayPath.ShlokaSanLine3"><b></b></h4>
@@ -36,14 +37,16 @@
       </div>
     </article>
     <br>
-    <div style="margin:0 auto">
-      <a ng-click="searchCh(todayPath.chapter)" href="#">Open Chapter {{todayPath.chapter}}</a>
-    <div>
+    <div style="margin:0 auto" align="center">
+      <a id="todayChapterOpen" href="#" style="color:#5F9EA0;font-weight:bold;"><i class="icon ion-ipod"></i>&nbsp;Open Chapter {{todayPath.chapter}}</a>
+    </div>
     <br>
 <img src="img/rose_960_720.jpg" alt="rose" style="width: 40%; height: 20%;margin:0px auto;display:block">
 
-<h6>English text courtesy Mr. Peter Ganglani of <a href="http://www3.sympatico.ca/goodnewsrealstate/geetaashram/indexgeeta.html">Geeta Ashram Canada</a> </h6>
-<h6>Sanskrit and Hindi text courtesy <a href="http://www.gitasupersite.iitk.ac.in/">Gita Supersite</a>  </h6>
+<p>English text courtesy<b> Mr. Peter Ganglani</b> of <a ng-click="openUrl('http://www3.sympatico.ca/goodnewsrealstate/geetaashram/indexgeeta.html')" href="#" style="color:#5F9EA0"><u>Geeta Ashram Canada</u></a>
+</p>
+<p>Sanskrit and Hindi text courtesy <a ng-click="openUrl('http://www.gitasupersite.iitk.ac.in/')" href="#" style="color:#5F9EA0"><u>Gita Supersite</u></a>  
+</p>
   <hr class="style18" width="80%">
 
   <footer>
@@ -315,7 +318,11 @@
             ng-click = "closeModal5()">Close Modal</button>
             <img src="img/logo.PNG" alt="geeta ashram" style="width:100%;height:100%;margin:0px auto;display:block"><br>
             <br>
+             <div align=center id=pronounciation>
+        <h6>Voice of Swami Hari Har Ji Maharaj</h6>
             <audio controls=""><source src="{{music}}" type="audio/mpeg"></audio>
+        <h6>This may take a few seconds</h6>
+      </div>
             <br>
         <div ng-repeat="shlokas in chapterSelected">
 
@@ -352,44 +359,117 @@
    </ion-modal-view>
 </script>
 
-             <!--  <h4 ng-show="engAbled" ng-bind-html="shlokas.Quoted_by | highlight"><b></b></h4>
-              <h4 ng-show="engAbled" ng-bind-html="shlokas.ShlokaEngLine1 | highlight"><b></b></h4>
-              <h4 ng-show="engAbled" ng-bind-html="shlokas.ShlokaEngLine2 | highlight"><b></b></h4>
-              <h4 ng-show="engAbled" ng-bind-html="shlokas.ShlokaEngLine3 | highlight"><b></b></h4>
-              <h4 ng-show="engAbled" ng-bind-html="shlokas.ShlokaEngLine4 | highlight"><b></b></h4>
-              <br>
-              <h4 ng-show="engDescAbled" ng-bind-html="shlokas.Description | highlight"></h4>
-              <br>
-              <h4 ng-bind-html="shlokas.Quoted_by_san | highlight"><b></b></h4>
-              <h4 ng-bind-html="shlokas.ShlokaSanLine4 | highlight"><b></b></h4>
-              <h4 ng-bind-html="shlokas.ShlokaSanLine4 | highlight"><b></b></h4>
-              <h4 ng-bind-html="shlokas.ShlokaSanLine4 | highlight"><b></b></h4>
-              <h4 ng-bind-html="shlokas.ShlokaSanLine4 | highlight"><b></b></h4>
-              <br>
-              <h4 ng-show="hindDescAbled" ng-bind-html="shlokas.DescriptionSan | highlight"></h4>
-              <br> -->
+<script id = "geetaMahatmyam.html" type = "text/ng-template">
+   <ion-modal-view>
+      <ion-header-bar>
+         <h1 class = "title">GEETA MAHAATMYAM</h1>
+      </ion-header-bar>
+    
+      <ion-content class="padding" ng-controller="AppCtrl">  
+         <button class = "button icon icon-left ion-ios-close-outline"
+            ng-click = "closeModal6()">Close Modal</button>
+            <img src="img/logo.PNG" alt="geeta ashram" style="width:100%;height:100%;margin:0px auto;display:block"><br>
+            <br>
 
+<font color = brown>
+<table>
+<tr><td><pre>
+<font color = brown><b><center><font face = tahoma>
+GEETA MAHAATMYAM
+<font color = black><u>Srimad Bhagwad Geeta</font color></u>
 
+[1]
+geetaa shaastra-midam punyam
+yaha pathet-prayataa pumaan
+vishnoh: padama vaap-noti
+bhaya shokaa divar-jitaha
+<font color = black>
+A person who studies the sacred
+scriptures of Geeta is freed from
+fear and grief. Such a person attains
+the abode of Lord Vishnu.
+</font color>
 
-    <!-- ion-nav-buttons side="right">
-        <button class="button button-clear" ng-hide="!OMDB_RESULTS" ng-click="clearSearch()">Clear</button>
-    </ion-nav-buttons> -->
+[2]
+geetaa dhyayana sheelas-ya
+praanaa-yaama parasya-cha
+naiva santi-hi paa-paani
+poorva-janma kritaani-cha
+<font color = black>
+A person who is devoted to study
+Geeta and practices praanaa-yaam
+is liberated from the sins and fruits
+of action of the previous birth. 
+</font color>
 
+[3]
+mala nirmocha-nam punsaam
+jala snaanam dine-dine
+sakrida geetaam-bhasi snaanam
+sansaara mal naasha-nam
+<font color = black>
+By bathing in water the 'day to day'
+dirt of the body is washed away. 
+But by bathing even once in the 
+holy water of Geeta, the whole 
+mundane dirt is washed away.
+</font color>
 
-  
+[4]
+geetaa sugeeta kartav-yaa
+kiman-yaiihi shaashtra-vistrai-ha
+yaa-svayam padma-naabhasya
+mukha padmaad dvini-hi sritaa
+<font color = black>                                                                       
+Geeta should be sung cheerfully; It
+has emanated from the Lotus Lips of
+God Himself... of what avail is the 
+study of other elaborate scriptures?
+</font color>
 
-              <!-- <h4 ng-show="engAbled"><b>{{shlokas.Quoted_by | highlight }}</b></h4>
-              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine1 | highlight }}</b></h4>
-              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine2 | highlight }}</b></h4>
-              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine3 | highlight }}</b></h4>
-              <h4 ng-show="engAbled"><b>{{shlokas.ShlokaEngLine4 | highlight }}</b></h4>
-              <br>
-              <h4 ng-show="engDescAbled">{{shlokas.Description | highlight }}</h4>
-              <br>
-              <h4><b>{{shlokas.Quoted_by_san | highlight }}:</b></h4>
-              <h4><b>{{shlokas.ShlokaSanLine1 | highlight }}</b></h4>
-              <h4><b>{{shlokas.ShlokaSanLine2 | highlight }}</b></h4>
-              <h4><b>{{shlokas.ShlokaSanLine3 | highlight }}</b></h4>
-              <h4><b>{{shlokas.ShlokaSanLine4 | highlight }}</b></h4>
-              <br>
-              <h4 ng-show="hindDescAbled">{{shlokas.DescriptionSan | highlight}}</h4> -->
+[5]
+bhaarataa-mrita sarva-svam
+vishnor-vaktraa divini-hi sritam
+geetaa gango-dakam peetvaa
+punar janma na-vidhyate
+<font color = black>                                                                       
+Geeta, being the immortal words 
+of Lord Vishnu, is the nectarine 
+essence of the whole of Mahabharat. 
+There is no rebirth for one who partakes 
+in Ganges-like water of the Geeta 
+</font color>
+
+[6]
+sar-vopni shado-gaavo
+dogdhaa gopaala-nandana-ha
+paartho vatsaha sudhir-bhoktaa
+dugdham geetaa-mritam-mahat
+<font color = black>                                                                       
+All Upanishads are the cows; Gopal -
+Nandana is the milker, Arjun is the
+calf; the wise are the partakers of the
+Divine nectar of the Bhagwad Geeta.
+</font color>
+
+[7]
+ekam shaastram devaki-putra geetam
+eko-devo devaki putra eva
+eko mantras tasya naamaani-yaani
+karmaa-pyekam tasya-devasya sevaa.
+<font color = black>
+There is only one scripture, which is sung 
+by the son of Devaki; only one God and, 
+that is the son of Devaki; only one  mantra, 
+and that is the name of God; There is only one 
+karma-and that is "the service of God"
+</font color>
+<br>
+<hr class="style18" width="80%">
+<br>
+<footer>
+<h6>Copyright (C) 2016 www.geetaashramthailand.org. All rights reserved.</h6>
+</footer>
+      </ion-content>
+   </ion-modal-view>
+</script>
